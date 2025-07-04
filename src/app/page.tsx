@@ -3,11 +3,11 @@ import Link from "next/link";
 export default function Home() {
   return (
     <main className="min-h-screen bg-black text-white flex flex-col items-center justify-center p-8">
-      <h1 className="text-5xl md:text-7xl font-bold text-center mb-6">
-        TokenTap
-      </h1>
+<h1 className="text-5xl md:text-7xl font-bold text-center mb-6 border-2 border-white rounded-full px-8 py-2 inline-block">
+  TokenTap
+</h1>
       <p className="text-xl md:text-2xl text-center max-w-2xl mb-8">
-Loyalty Tokens.<br />
+        Loyalty Tokens.<br />
         Your brand, your token, your rules.
       </p>
 
