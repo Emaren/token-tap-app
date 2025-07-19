@@ -40,10 +40,8 @@ export default function DemoPage() {
         <div>
           <label className="block text-sm mb-1">Max Supply</label>
           <input
-            type="number"
-            disabled
-            value="1,000,000"
             type="text"
+            value="1,000,000"
             disabled
             className="w-full px-4 py-2 rounded border border-white bg-black text-white opacity-30 cursor-not-allowed"
           />

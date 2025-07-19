@@ -1,7 +1,6 @@
 'use client'
 
 import Link from "next/link"
-import { stripePromise } from "@/lib/stripe"
 
 async function handleCheckout(priceId: string, uid: string) {
   const res = await fetch("http://localhost:8000/create-checkout-session/", {
