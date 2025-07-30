@@ -39,11 +39,14 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# python / direnv / venv
 .envrc
 .direnv/
 .python-version
 
 # 🧹 Local cleanup
+venv-logs/
 venv-logs/venv-freeze-*.log
 venv-logs/venv-freeze-*.log.prev
 tmp_stash/
