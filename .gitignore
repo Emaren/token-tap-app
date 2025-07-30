@@ -42,3 +42,8 @@ next-env.d.ts
 .envrc
 .direnv/
 .python-version
+
+# 🧹 Local cleanup
+venv-logs/venv-freeze-*.log
+venv-logs/venv-freeze-*.log.prev
+tmp_stash/
