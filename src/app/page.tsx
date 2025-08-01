@@ -12,7 +12,7 @@ export default function Home() {
       </p>
 
 <Link
-  href="/pricing"
+  href="/get-started"
   className="border-2 border-white text-white px-6 py-3 rounded-full text-lg font-semibold transition duration-200 hover:ring-1 hover:ring-white hover:ring-offset-2 hover:ring-offset-black cursor-pointer"
 >
   Get Started

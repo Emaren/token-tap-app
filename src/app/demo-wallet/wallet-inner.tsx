@@ -6,7 +6,7 @@ import { useRouter, useSearchParams } from 'next/navigation'
 export default function WalletInner() {
   const router = useRouter()
   const params = useSearchParams()
-  const rawToken = params.get('token') || 'demo'
+  const rawToken = params.get('token') || 'health'
   const displayToken = `$${rawToken.toUpperCase()}`
 
   return (
@@ -37,10 +37,10 @@ export default function WalletInner() {
       </div>
 
       <button
-        onClick={() => router.push('/pricing')}
+        onClick={() => router.push('/get-started')}
         className="border-2 border-white text-white px-6 py-3 rounded-full text-lg font-semibold hover:ring-1 hover:ring-white hover:ring-offset-2 hover:ring-offset-black cursor-pointer"
       >
-        Back to Pricing
+        Back
       </button>
     </main>
   )

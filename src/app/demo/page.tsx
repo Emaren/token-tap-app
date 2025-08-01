@@ -59,7 +59,14 @@ export default function DemoPage() {
         onClick={() => router.push('/pricing')}
         className="border-2 border-white text-white px-6 py-3 rounded-full text-lg font-semibold hover:ring-1 hover:ring-white hover:ring-offset-2 hover:ring-offset-black cursor-pointer"
         >
-        Back to Pricing
+        Pricing
+      </button>
+      <br />
+        <button
+        onClick={() => router.push('/get-started')}
+        className="border-2 border-white text-white px-6 py-3 rounded-full text-lg font-semibold hover:ring-1 hover:ring-white hover:ring-offset-2 hover:ring-offset-black cursor-pointer"
+        >
+        Back
       </button>
     </main>
   );
