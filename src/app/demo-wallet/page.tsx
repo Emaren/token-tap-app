@@ -1,13 +1,24 @@
-// src/app/demo-wallet/page.tsx
 'use client'
 
-import { Suspense } from 'react'
-import WalletInner from './wallet-inner'
+import { useSearchParams } from 'next/navigation'
+import BaseWallet from '@/components/BaseWallet'
 
 export default function DemoWalletPage() {
+  const params = useSearchParams()
+  const token = params.get('token') || 'health'
+
+  const brandMap: Record<string, { brand: string; emoji?: string }> = {
+    health: { brand: 'Homesteader Health', emoji: '🥕' },
+    ducs: { brand: 'Duc’s Delivery', emoji: '🚚' },
+    platinum: { brand: 'Platinum Hair Lounge', emoji: '💇‍♀️' },
+    woof: { brand: 'Partners Naturally', emoji: '🐶' },
+    demo: { brand: 'Demo Wallet' },
+  }
+
+  const { brand, emoji } = brandMap[token.toLowerCase()] || brandMap['demo']
+  const balance = 1000
+
   return (
-    <Suspense fallback={<div className="text-white p-10">Loading Wallet...</div>}>
-      <WalletInner />
-    </Suspense>
+    <BaseWallet token={token} balance={balance} brand={brand} emoji={emoji} />
   )
 }

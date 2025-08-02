@@ -1,6 +1,7 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 
 const userId = "test_user_123"
 
@@ -85,10 +86,28 @@ export default function MorePricingPage() {
 
       <button
         onClick={() => router.back()}
-        className="mt-10 text-sm text-white underline hover:text-white/70"
+        className="mt-10 text-sm text-white underline hover:text-white/70 cursor-pointer"
       >
         ← Back
       </button>
+            {/* Bottom Links */}
+            <section className="mt-10 text-center space-y-2 text-sm">
+        <a
+          href="https://discord.gg/RYNBKz7n9y"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-2 text-white underline hover:text-white/70 cursor-pointer"
+        >
+          <img src="/images/discord.svg" alt="Discord" className="w-5 h-5" />
+          Join the TokenTap Discord
+        </a>
+        <a
+          href="mailto:contact@tokentap.ca"
+          className="text-white underline hover:text-white/70 cursor-pointer block"
+        >
+          Contact TokenTap
+        </a>
+        </section> {/* Bottom Links */}
     </main>
   )
 }

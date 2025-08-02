@@ -4,6 +4,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import CustomerCard from '@/components/CustomerCard'
 import { customers } from '@/components/customers'
+import DiscordIcon from '@/assets/images/discord.svg'
 
 export default function GetStartedPage() {
   const [showAll, setShowAll] = useState(false)
@@ -22,16 +23,11 @@ export default function GetStartedPage() {
       <section className="text-center mb-10">
         <h1 className="text-2xl font-bold mb-6">Featured Customers</h1>
         <div className="space-y-6">
-          {/* Always show the first customer */}
           <CustomerCard {...customers[0]} />
-
-          {/* Conditionally show the rest */}
           {showAll &&
             customers.slice(1).map((c, i) => (
               <CustomerCard key={i + 1} {...c} />
             ))}
-
-          {/* Toggle Button */}
           {customers.length > 1 && (
             <button
               onClick={() => setShowAll(!showAll)}
@@ -46,8 +42,8 @@ export default function GetStartedPage() {
       {/* Centered Demo Tile */}
       <section className="flex-grow flex flex-col justify-center">
         <h2 className="text-xl font-semibold text-center mb-6">Loyalty Tokens</h2>
-          <Link href={demoTier.link}>
-            <div className="cursor-pointer border-2 border-white rounded-2xl p-6 text-center transition hover:ring-1 hover:ring-white hover:ring-offset-2 hover:ring-offset-black">
+        <Link href={demoTier.link}>
+          <div className="cursor-pointer border-2 border-white rounded-2xl p-6 text-center transition hover:ring-1 hover:ring-white hover:ring-offset-2 hover:ring-offset-black">
             <h3 className="text-lg font-bold mb-1">{demoTier.name}</h3>
             <p className="text-white/70 text-sm mb-2">{demoTier.sub}</p>
             <p className="text-lg font-semibold mb-3">{demoTier.price}</p>
@@ -60,15 +56,30 @@ export default function GetStartedPage() {
         </Link>
       </section>
 
-      {/* Bottom: Link to more pricing */}
-      <section className="mt-8 text-center">
+      {/* Bottom Links */}
+      <section className="mt-10 text-center space-y-2 text-sm">
         <Link
           href="/get-started/pricing"
-          className="text-sm text-white underline hover:text-white/70 cursor-pointer"
+          className="text-white underline hover:text-white/70 cursor-pointer block"
         >
           More Pricing
         </Link>
-      </section>
+        <a
+          href="https://discord.gg/RYNBKz7n9y"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-2 text-white underline hover:text-white/70 cursor-pointer"
+        >
+          <img src="/images/discord.svg" alt="Discord" className="w-5 h-5" />
+          Join the TokenTap Discord
+        </a>
+        <a
+          href="mailto:contact@tokentap.ca"
+          className="text-white underline hover:text-white/70 cursor-pointer block"
+        >
+          Contact TokenTap
+        </a>
+        </section> {/* Bottom Links */}
     </main>
   )
 }

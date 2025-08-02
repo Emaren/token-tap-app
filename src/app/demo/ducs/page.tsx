@@ -3,10 +3,10 @@
 import { Suspense } from 'react'
 import BaseWallet from '@/components/BaseWallet'
 
-export default function HomesteaderWalletPage() {
+export default function DucsWalletPage() {
   return (
     <Suspense fallback={<div className="text-white p-10">Loading...</div>}>
-      <BaseWallet token="health" balance={1_000} brand="Homesteader Health" emoji="🥕" />
+        <BaseWallet token="ducs" balance={1_000} brand="Duc's Delivery" emoji="🚚" />
     </Suspense>
   )
 }
