@@ -1,5 +1,4 @@
 // src/app/onboarding/page.tsx
-'use client'
 
 import { Suspense } from 'react'
 import OnboardingInner from './onboarding-inner'

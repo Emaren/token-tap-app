@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import { useState } from 'react'
 import Link from 'next/link'
@@ -28,7 +28,7 @@ export default function GetStartedPage() {
             customers.slice(1).map((c, i) => (
               <CustomerCard key={i + 1} {...c} />
             ))}
-          {customers.length > 1 && (
+          {customers?.length > 1 && (
             <button
               onClick={() => setShowAll(!showAll)}
               className="mt-2 text-sm text-white hover:text-white/70 cursor-pointer"

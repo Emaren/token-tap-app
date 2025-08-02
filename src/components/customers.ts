@@ -1,6 +1,6 @@
 export const customers = [
   {
-    href: '/demo/ducs',
+    href: '/demo-wallet?token=ducs',
     image: '/images/ducs-logo.jpeg',
     emoji: '🚚',
     name: 'Duc’s Delivery',
@@ -13,7 +13,7 @@ export const customers = [
     ],
   },
   {
-    href: '/demo/homesteader',
+    href: '/demo-wallet?token=health',
     image: '/images/HH-logo.avif',
     emoji: '🥕',
     name: 'Homesteader Health',
@@ -26,7 +26,7 @@ export const customers = [
     ],
   },
   {
-    href: '/demo/partners-naturally',
+    href: '/demo-wallet?token=woof',
     image: '/images/PN-logo.webp',
     emoji: '🐶',
     name: 'Partners Naturally',
@@ -39,7 +39,7 @@ export const customers = [
     ],
   },
   {
-    href: '/demo/platinum',
+    href: '/demo-wallet?token=platinum',
     image: '/images/platinum-logo.jpeg',
     emoji: '💇‍♀️',
     name: 'Platinum Hair Lounge',

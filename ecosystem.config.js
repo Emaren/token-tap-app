@@ -2,12 +2,20 @@ module.exports = {
   apps: [
     {
       name: 'token_tap_app',
-      cwd: '/var/www/token-tap-app',
-      script: 'node_modules/.bin/next',
-      args: 'start -p 3007',
-      exec_mode: 'fork',
+      cwd: '/var/www/token-tap/token-tap-app',
+      script: './start.sh',
+      interpreter: '/bin/bash',
+      env: {
+        NODE_ENV: 'production',
+        NEXT_DISABLE_PWA: '1',
+        PNPM_NON_INTERACTIVE: '1',
+        CI: 'true',
+      },
       instances: 1,
-      env: { NODE_ENV: 'production' }
-    }
-  ]
-}
+      exec_mode: 'fork',
+      autorestart: true,
+      max_restarts: 5,
+      merge_logs: true,
+    },
+  ],
+};

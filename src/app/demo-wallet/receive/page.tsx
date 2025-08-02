@@ -1,4 +1,4 @@
-'use client'
+// src/app/demo-wallet/receive/page.tsx
 
 import { Suspense } from 'react'
 import ReceiveInner from './receive-inner'

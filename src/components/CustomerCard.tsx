@@ -39,11 +39,13 @@ export default function CustomerCard({
               </h3>
               <p className="text-sm text-white/70">{subtitle}</p>
               <p className="text-md font-semibold mt-1">{price}</p>
+              {Array.isArray(bullets) && bullets.length > 0 && (
               <ul className="text-xs text-white/70 mt-1 space-y-0.5">
                 {bullets.map((item, i) => (
                   <li key={i}>{item}</li>
                 ))}
               </ul>
+            )}
             </div>
           </div>
         </div>

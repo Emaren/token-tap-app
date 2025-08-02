@@ -1,4 +1,4 @@
-'use client'
+// src/app/demo-wallet/send/page.tsx
 
 import { Suspense } from 'react'
 import SendInner from './send-inner'

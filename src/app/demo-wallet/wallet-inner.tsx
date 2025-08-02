@@ -16,7 +16,7 @@
 //     demo: { brand: 'Demo Wallet' },
 //   }
 
-//   const { brand, emoji } = brandMap[rawToken.toLowerCase()] || brandMap['demo']
+//   const { brand, emoji } = brandMap[rawToken?.toLowerCase?.() || 'demo'] || brandMap['demo']
 
 //   return (
 //     <BaseWalletLayout brand={brand} emoji={emoji}>

@@ -24,7 +24,7 @@ export default function SendInner() {
     demo: { brand: 'Demo Wallet' },
   }
 
-  const { brand, emoji } = brandMap[rawToken.toLowerCase()] || brandMap['demo']
+  const { brand, emoji } = brandMap[rawToken?.toLowerCase?.() || 'demo'] || brandMap['demo']
 
   useEffect(() => {
     if (!scanning || !videoRef.current) return
@@ -77,7 +77,28 @@ export default function SendInner() {
           {!scanning ? (
             <button
               type="button"
-              onClick={() => setScanning(true)}
+              onClick={() => {
+                navigator.mediaDevices
+                  .getUserMedia({
+                    video: {
+                      facingMode: { ideal: 'environment' },
+                      width: { ideal: 1280 },
+                      height: { ideal: 720 },
+                    },
+                    audio: false,
+                  })
+                  .then((stream) => {
+                    if (videoRef.current) {
+                      videoRef.current.srcObject = stream
+                      videoRef.current.play()
+                    }
+                    setScanning(true)
+                  })
+                  .catch((err) => {
+                    alert('Camera permission denied or not available.')
+                    console.error(err)
+                  })
+              }}
               className="w-full cursor-pointer border-2 border-white text-white px-6 py-3 rounded-full text-lg font-semibold transition hover:ring hover:ring-white/70"
             >
               Scan QR Code
@@ -89,13 +110,23 @@ export default function SendInner() {
                 onClick={() => {
                   setScanning(false)
                   scannerRef.current?.stop()
+                  if (videoRef.current?.srcObject) {
+                    const tracks = (videoRef.current.srcObject as MediaStream).getTracks()
+                    tracks.forEach((track) => track.stop())
+                  }
                 }}
                 className="w-full cursor-pointer border-2 border-white text-white px-6 py-3 rounded-full text-lg font-semibold transition hover:ring hover:ring-white/70"
               >
                 Stop Scanning
               </button>
               <div className="w-full">
-                <video ref={videoRef} className="w-full rounded mt-4" />
+                <video
+                  ref={videoRef}
+                  className="w-full rounded mt-4"
+                  playsInline
+                  autoPlay
+                  muted
+                />
               </div>
             </>
           )}

@@ -1,12 +1,5 @@
-'use client'
+import { redirect } from 'next/navigation';
 
-import { Suspense } from 'react'
-import BaseWallet from '@/components/BaseWallet'
-
-export default function HomesteaderWalletPage() {
-  return (
-    <Suspense fallback={<div className="text-white p-10">Loading...</div>}>
-      <BaseWallet token="health" balance={1_000} brand="Homesteader Health" emoji="🥕" />
-    </Suspense>
-  )
+export default function HomesteaderRedirect() {
+  redirect('/demo-wallet?token=health');   // old brand = health
 }
