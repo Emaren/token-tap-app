@@ -1,7 +1,6 @@
 "use client";
 
 import { useRouter } from 'next/navigation'
-import Link from 'next/link'
 
 const userId = "test_user_123"
 

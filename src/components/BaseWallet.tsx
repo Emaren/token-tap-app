@@ -51,19 +51,19 @@ export default function BaseWallet({
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <button
             onClick={() => router.push(`/demo-wallet/send?token=${token}`)}
-            className="border-2 border-white rounded-full py-3 px-6 text-lg font-semibold hover:ring hover:ring-white/70"
+            className="border-2 border-white rounded-full py-3 px-6 text-lg font-semibold hover:ring hover:ring-white/70 cursor-pointer"
           >
             Send
           </button>
           <button
             onClick={() => router.push(`/demo-wallet/receive?token=${token}`)}
-            className="border-2 border-white rounded-full py-3 px-6 text-lg font-semibold hover:ring hover:ring-white/70"
+            className="border-2 border-white rounded-full py-3 px-6 text-lg font-semibold hover:ring hover:ring-white/70 cursor-pointer"
           >
             Receive
           </button>
           <button
             onClick={() => router.push(`/demo-wallet/request?token=${token}`)}
-            className="border-2 border-white rounded-full py-3 px-6 text-lg font-semibold hover:ring hover:ring-white/70"
+            className="border-2 border-white rounded-full py-3 px-6 text-lg font-semibold hover:ring hover:ring-white/70 cursor-pointer"
           >
             Request
           </button>
@@ -74,7 +74,7 @@ export default function BaseWallet({
       <div className="mt-12 text-center flex flex-col items-center space-y-4">
         <button
           onClick={() => router.push('/get-started')}
-          className="border-2 border-white text-white px-6 py-3 rounded-full text-lg font-semibold hover:ring hover:ring-white/70"
+          className="border-2 border-white text-white px-6 py-3 rounded-full text-lg font-semibold hover:ring hover:ring-white/70 cursor-pointer"
         >
           Back
         </button>

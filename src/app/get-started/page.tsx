@@ -68,7 +68,7 @@ export default function GetStartedPage() {
       <section className="mt-10 text-center space-y-2 text-sm">
         <Link
           href="/get-started/pricing"
-          className="text-white underline hover:text-white/70 block"
+          className="text-white underline hover:text-white/70 block cursor-pointer"
         >
           More Pricing
         </Link>
@@ -76,14 +76,14 @@ export default function GetStartedPage() {
           href="https://discord.gg/RYNBKz7n9y"
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 text-white underline hover:text-white/70"
+          className="inline-flex items-center gap-2 text-white underline hover:text-white/70 cursor-pointer"
         >
           <img src="/images/discord.svg" alt="Discord" className="w-5 h-5" />
           Join the TokenTap Discord
         </a>
         <a
           href="mailto:contact@tokentap.ca"
-          className="text-white underline hover:text-white/70 block"
+          className="text-white underline hover:text-white/70 block cursor-pointer"
         >
           Contact TokenTap
         </a>

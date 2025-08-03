@@ -1,11 +1,12 @@
 'use client'
 
+import { useState } from 'react'
 import Link from 'next/link'
 
 export default function Home() {
-  // Toggle based on even/odd hour (e.g., changes every hour)
   const hour = new Date().getHours()
-  const colorMode = hour % 2 === 0
+  const initialColorMode = hour % 2 === 0
+  const [colorMode, setColorMode] = useState(initialColorMode)
 
   return (
     <main className="min-h-[100dvh] bg-black text-white flex flex-col items-center justify-between px-4 py-8 overflow-hidden">
@@ -21,7 +22,8 @@ export default function Home() {
       {/* 🔸 Centered Text */}
       <div className="flex flex-col items-center justify-center text-center px-4">
         <h1
-          className={`text-5xl md:text-6xl font-bold mb-6 inline-block ${
+          onClick={() => setColorMode(!colorMode)}
+          className={`cursor-pointer text-5xl md:text-6xl font-bold mb-6 inline-block ${
             colorMode
               ? 'text-white border border-white px-8 py-2 rounded-full tracking-tight'
               : 'bg-gradient-to-r from-purple-500 to-pink-600 text-transparent bg-clip-text'
@@ -65,7 +67,6 @@ export default function Home() {
     </main>
   )
 }
-
 
 
 
