@@ -4,7 +4,6 @@ import { useState } from 'react'
 import Link from 'next/link'
 import CustomerCard from '@/components/CustomerCard'
 import { customers } from '@/components/customers'
-import DiscordIcon from '@/assets/images/discord.svg'
 
 export default function GetStartedPage() {
   const [showAll, setShowAll] = useState(false)
@@ -18,8 +17,17 @@ export default function GetStartedPage() {
   }
 
   return (
-    <main className="min-h-screen flex flex-col bg-black text-white px-4 pt-10 pb-6 max-w-md mx-auto">
-      {/* Top: Customer Section */}
+    <main className="min-h-screen relative flex flex-col bg-black text-white px-4 pt-10 pb-6 max-w-md mx-auto">
+      {/* 🔷 Top-Left Logo */}
+      <Link href="/" className="absolute top-4 left-4 z-10">
+        <img
+          src="/images/ttt-logo.png"
+          alt="TokenTap Logo"
+          className="w-10 h-10 object-contain"
+        />
+      </Link>
+
+      {/* Top: Customers */}
       <section className="text-center mb-10">
         <h1 className="text-2xl font-bold mb-6">Featured Customers</h1>
         <div className="space-y-6">
@@ -31,7 +39,7 @@ export default function GetStartedPage() {
           {customers?.length > 1 && (
             <button
               onClick={() => setShowAll(!showAll)}
-              className="mt-2 text-sm text-white hover:text-white/70 cursor-pointer"
+              className="mt-2 text-sm text-white hover:text-white/70"
             >
               {showAll ? 'Hide More Customers ⬆' : 'More Customers ⬇'}
             </button>
@@ -39,8 +47,8 @@ export default function GetStartedPage() {
         </div>
       </section>
 
-      {/* Centered Demo Tile */}
-      <section className="flex-grow flex flex-col justify-center">
+      {/* Demo Tile */}
+      <section className="flex-1 flex flex-col justify-center">
         <h2 className="text-xl font-semibold text-center mb-6">Loyalty Tokens</h2>
         <Link href={demoTier.link}>
           <div className="cursor-pointer border-2 border-white rounded-2xl p-6 text-center transition hover:ring-1 hover:ring-white hover:ring-offset-2 hover:ring-offset-black">
@@ -60,7 +68,7 @@ export default function GetStartedPage() {
       <section className="mt-10 text-center space-y-2 text-sm">
         <Link
           href="/get-started/pricing"
-          className="text-white underline hover:text-white/70 cursor-pointer block"
+          className="text-white underline hover:text-white/70 block"
         >
           More Pricing
         </Link>
@@ -68,18 +76,18 @@ export default function GetStartedPage() {
           href="https://discord.gg/RYNBKz7n9y"
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 text-white underline hover:text-white/70 cursor-pointer"
+          className="inline-flex items-center gap-2 text-white underline hover:text-white/70"
         >
           <img src="/images/discord.svg" alt="Discord" className="w-5 h-5" />
           Join the TokenTap Discord
         </a>
         <a
           href="mailto:contact@tokentap.ca"
-          className="text-white underline hover:text-white/70 cursor-pointer block"
+          className="text-white underline hover:text-white/70 block"
         >
           Contact TokenTap
         </a>
-        </section> {/* Bottom Links */}
+      </section>
     </main>
   )
 }

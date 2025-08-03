@@ -24,7 +24,7 @@ export default function DemoWalletInner() {
     ducs:     { brand: 'Duc’s Delivery',       emoji: '🚚' },
     platinum: { brand: 'Platinum Hair Lounge', emoji: '💇‍♀️' },
     woof:     { brand: 'Partners Naturally',   emoji: '🐶' },
-    demo:     { brand: 'Demo Wallet' },
+    demo:     { brand: 'Demo' },
   };
 
   const { brand, emoji } = brandMap[token] ?? brandMap.demo;

@@ -1,37 +1,127 @@
-/* src/app/page.tsx
-   Simple responsive hero for the landing screen
-*/
-import Link from 'next/link';
+'use client'
+
+import Link from 'next/link'
 
 export default function Home() {
+  // Toggle based on even/odd hour (e.g., changes every hour)
+  const hour = new Date().getHours()
+  const colorMode = hour % 2 === 0
+
   return (
-    <main className="min-h-screen flex flex-col items-center justify-center bg-black text-white px-6">
-      {/* Logo / brand */}
-      <h1 className="text-5xl font-extrabold tracking-tight mb-4 sm:text-6xl">
-        <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">
+    <main className="min-h-[100dvh] bg-black text-white flex flex-col items-center justify-between px-4 py-8 overflow-hidden">
+      {/* 🔷 Logo */}
+      <div className="mt-8 mb-6">
+        <img
+          src={colorMode ? '/images/ttt-logo.png' : '/images/pinktt-logo.png'}
+          alt="TokenTap Logo"
+          className="w-32 h-32 md:w-40 md:h-40 object-contain transition duration-200"
+        />
+      </div>
+
+      {/* 🔸 Centered Text */}
+      <div className="flex flex-col items-center justify-center text-center px-4">
+        <h1
+          className={`text-5xl md:text-6xl font-bold mb-6 inline-block ${
+            colorMode
+              ? 'text-white border border-white px-8 py-2 rounded-full tracking-tight'
+              : 'bg-gradient-to-r from-purple-500 to-pink-600 text-transparent bg-clip-text'
+          }`}
+        >
           TokenTap
-        </span>
-      </h1>
+        </h1>
 
-      {/* Tagline */}
-      <p className="text-center mb-10 text-lg text-white/80 max-w-sm">
-        Loyalty&nbsp;Tokens.<br />
-        Your brand, your token, your rules.
-      </p>
+        <p className="text-lg md:text-xl text-white/80 mb-2">Loyalty Tokens.</p>
+        <p className="text-lg md:text-xl text-white/80 mb-10">
+          Your brand, your token, your{' '}
+          <span
+            className={
+              colorMode
+                ? 'decoration-pink-500'
+                : 'underline decoration-white/40'
+            }
+          >
+            rules
+          </span>
+          .
+        </p>
 
-      {/* CTA */}
-      <Link
-        href="/get-started"
-        className="inline-block rounded-full bg-gradient-to-r from-purple-500 to-pink-500 px-8 py-3 text-sm font-semibold shadow-lg transition
-                   hover:brightness-110 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2 focus:ring-offset-black"
-      >
-        Get&nbsp;Started
-      </Link>
+        <Link href="/get-started">
+          <button
+            className={`font-semibold text-lg px-8 py-3 rounded-full shadow-md hover:scale-105 transition transform duration-200 ${
+              colorMode
+                ? 'bg-black border border-white text-white'
+                : 'bg-gradient-to-r from-purple-600 to-pink-600 text-white'
+            }`}
+          >
+            Get Started
+          </button>
+        </Link>
+      </div>
 
-      {/* Footer */}
-      <footer className="absolute bottom-6 text-xs text-white/50">
-        © {new Date().getFullYear()} TokenTap.ca
+      {/* 🔻 Footer */}
+      <footer className="mt-12 text-sm text-white/40 text-center">
+        &copy; {new Date().getFullYear()} TokenTap.ca
       </footer>
     </main>
-  );
+  )
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// 'use client'
+
+// import Link from 'next/link'
+
+// export default function Home() {
+//   return (
+//     <main className="min-h-[100dvh] bg-black text-white flex flex-col items-center justify-between px-4 py-8 overflow-hidden">
+//       {/* 🔷 Logo */}
+//       <div className="mt-8 mb-6">
+//         <img
+//           src="/images/pinktt-logo.png"
+//           alt="TokenTap Logo"
+//           className="w-32 h-32 md:w-40 md:h-40 object-contain"
+//         />
+//       </div>
+
+//       {/* 🔸 Centered Text */}
+//       <div className="flex flex-col items-center justify-center text-center px-4">
+//         <h1 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-purple-500 to-pink-600 text-transparent bg-clip-text">
+//           TokenTap
+//         </h1>
+
+//         <p className="text-lg md:text-xl text-white/80 mb-2">Loyalty Tokens.</p>
+//         <p className="text-lg md:text-xl text-white/80 mb-10">
+//           Your brand, your token, your <span className="decoration-pink-500">rules</span>.
+//         </p>
+
+//         <Link href="/get-started">
+//           <button className="bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold text-lg px-8 py-3 rounded-full shadow-md hover:scale-105 transition transform duration-200">
+//             Get Started
+//           </button>
+//         </Link>
+//       </div>
+
+//       {/* 🔻 Footer */}
+//       <footer className="mt-12 text-sm text-white/40 text-center">
+//         &copy; {new Date().getFullYear()} TokenTap.ca
+//       </footer>
+//     </main>
+//   )
+// }
