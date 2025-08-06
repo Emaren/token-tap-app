@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import PlausibleProvider from "next-plausible";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -26,24 +27,25 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        {/* ✅ Inline polyfill to load it before anything else */}
-        <script dangerouslySetInnerHTML={{
-          __html: `
-            if (typeof window !== 'undefined') {
-              if (
-                typeof window.crypto !== 'undefined' &&
-                typeof window.crypto.randomUUID !== 'function'
-              ) {
-                window.crypto.randomUUID = function () {
-                  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-                    var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
-                    return v.toString(16);
-                  });
-                };
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              if (typeof window !== 'undefined') {
+                if (
+                  typeof window.crypto !== 'undefined' &&
+                  typeof window.crypto.randomUUID !== 'function'
+                ) {
+                  window.crypto.randomUUID = function () {
+                    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+                      var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+                      return v.toString(16);
+                    });
+                  };
+                }
               }
-            }
-          `
-        }} />
+            `,
+          }}
+        />
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="description" content="Loyalty & payments using branded tokens on TokenChain" />
@@ -57,9 +59,9 @@ export default function RootLayout({
         <title>TokenTap</title>
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+        <PlausibleProvider domain="tokentap.ca" trackLocalhost={true} />
         {children}
       </body>
     </html>
   );
 }
-

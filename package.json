@@ -12,6 +12,7 @@
     "@stripe/stripe-js": "^7.4.0",
     "html5-qrcode": "^2.3.8",
     "next": "15.2.3",
+    "next-plausible": "^3.12.4",
     "qr-scanner": "^1.4.2",
     "qrcode.react": "^4.2.0",
     "react": "^19.0.0",
