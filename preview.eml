@@ -1,0 +1,10 @@
+Subject: Test Email
+From: test@example.com
+To: test@example.com
+MIME-Version: 1.0
+Content-Type: text/html
+
+<!-- Paste your HTML here -->
+<html>
+  ... your email ...
+</html>

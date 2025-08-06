@@ -39,7 +39,7 @@ export default function Home() {
             className={
               colorMode
                 ? 'decoration-pink-500'
-                : 'underline decoration-white/40'
+                : 'decoration-white/40'
             }
           >
             rules
