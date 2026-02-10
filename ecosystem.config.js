@@ -1,8 +1,8 @@
 module.exports = {
   apps: [
     {
-      name: 'token_tap_app',
-      cwd: '/var/www/token-tap/token-tap-app',
+      name: 'tokentap-app',
+      cwd: '/var/www/token-tap-app',
       script: './start.sh',
       interpreter: '/bin/bash',
       env: {
