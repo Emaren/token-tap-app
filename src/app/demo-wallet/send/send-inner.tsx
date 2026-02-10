@@ -1,9 +1,14 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
-import QrScanner from 'qr-scanner'
 import BaseWalletLayout from '@/components/BaseWalletLayout'
+
+type QrScannerInstance = {
+  start: () => Promise<void>
+  stop: () => void
+  destroy?: () => void
+}
 
 export default function SendInner() {
   const params = useSearchParams()
@@ -14,7 +19,7 @@ export default function SendInner() {
   const [amount, setAmount] = useState('')
   const [scanning, setScanning] = useState(false)
   const videoRef = useRef<HTMLVideoElement>(null)
-  const scannerRef = useRef<QrScanner | null>(null)
+  const scannerRef = useRef<QrScannerInstance | null>(null)
 
   const brandMap: Record<string, { brand: string; emoji?: string }> = {
     health: { brand: 'Homesteader Health', emoji: '🥕' },
@@ -26,37 +31,60 @@ export default function SendInner() {
 
   const { brand, emoji } = brandMap[rawToken?.toLowerCase?.() || 'demo'] || brandMap['demo']
 
+  const stopScanner = useCallback(() => {
+    scannerRef.current?.stop()
+    scannerRef.current?.destroy?.()
+    scannerRef.current = null
+
+    const videoElement = videoRef.current
+    const tracks = (videoElement?.srcObject as MediaStream | null)?.getTracks?.()
+    tracks?.forEach((track) => track.stop())
+    if (videoElement) videoElement.srcObject = null
+  }, [])
+
   useEffect(() => {
     if (!scanning) return
     const videoElement = videoRef.current
     if (!videoElement) return
 
-    const stopVideoTracks = () => {
-      const tracks = (videoElement.srcObject as MediaStream | null)?.getTracks?.()
-      tracks?.forEach((track) => track.stop())
+    let cancelled = false
+
+    const startScanner = async () => {
+      try {
+        const { default: QrScanner } = await import('qr-scanner')
+        if (cancelled) return
+
+        const scanner = new QrScanner(
+          videoElement,
+          (result) => {
+            if (cancelled) return
+            setRecipient(result.data)
+            setScanning(false)
+            stopScanner()
+          },
+          {
+            highlightScanRegion: true,
+            maxScansPerSecond: 1,
+          }
+        )
+
+        scannerRef.current = scanner as QrScannerInstance
+        await scanner.start()
+      } catch (error) {
+        if (cancelled) return
+        console.error('QR scanner failed to start', error)
+        setScanning(false)
+        stopScanner()
+      }
     }
 
-    scannerRef.current = new QrScanner(
-      videoElement,
-      (result) => {
-        setRecipient(result.data)
-        setScanning(false)
-        scannerRef.current?.stop()
-        stopVideoTracks()
-      },
-      {
-        highlightScanRegion: true,
-        maxScansPerSecond: 1,
-      }
-    )
-
-    scannerRef.current.start()
+    void startScanner()
 
     return () => {
-      scannerRef.current?.stop()
-      stopVideoTracks()
+      cancelled = true
+      stopScanner()
     }
-  }, [scanning])
+  }, [scanning, stopScanner])
 
   const handleSubmit = (e?: React.FormEvent) => {
     e?.preventDefault()
@@ -97,7 +125,7 @@ export default function SendInner() {
               type="button"
               onClick={() => {
                 setScanning(false)
-                scannerRef.current?.stop()
+                stopScanner()
               }}
               className="w-full border-2 border-white text-white px-6 py-3 rounded-full text-lg font-semibold hover:ring hover:ring-white/70"
             >

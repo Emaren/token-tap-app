@@ -26,7 +26,6 @@ export default function GetStartedPage() {
           alt="TokenTap Logo"
           width={40}
           height={40}
-          priority
           className="w-10 h-10 object-contain"
         />
       </Link>
@@ -35,7 +34,7 @@ export default function GetStartedPage() {
       <section className="text-center mb-10">
         <h1 className="text-2xl font-bold mb-6">Featured Customers</h1>
         <div className="space-y-6">
-          <CustomerCard {...customers[0]} />
+          <CustomerCard {...customers[0]} priority />
           {showAll &&
             customers.slice(1).map((c, i) => (
               <CustomerCard key={i + 1} {...c} />
