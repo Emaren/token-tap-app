@@ -27,16 +27,22 @@ export default function SendInner() {
   const { brand, emoji } = brandMap[rawToken?.toLowerCase?.() || 'demo'] || brandMap['demo']
 
   useEffect(() => {
-    if (!scanning || !videoRef.current) return
+    if (!scanning) return
+    const videoElement = videoRef.current
+    if (!videoElement) return
+
+    const stopVideoTracks = () => {
+      const tracks = (videoElement.srcObject as MediaStream | null)?.getTracks?.()
+      tracks?.forEach((track) => track.stop())
+    }
 
     scannerRef.current = new QrScanner(
-      videoRef.current,
+      videoElement,
       (result) => {
         setRecipient(result.data)
         setScanning(false)
         scannerRef.current?.stop()
-        const tracks = (videoRef.current!.srcObject as MediaStream)?.getTracks?.()
-        tracks?.forEach((track) => track.stop())
+        stopVideoTracks()
       },
       {
         highlightScanRegion: true,
@@ -48,8 +54,7 @@ export default function SendInner() {
 
     return () => {
       scannerRef.current?.stop()
-      const tracks = (videoRef.current?.srcObject as MediaStream)?.getTracks?.()
-      tracks?.forEach((track) => track.stop())
+      stopVideoTracks()
     }
   }, [scanning])
 

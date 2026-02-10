@@ -1,6 +1,7 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
+import Image from 'next/image'
 import QRCode from 'react-qr-code'
 
 export default function BaseWallet({
@@ -86,7 +87,7 @@ export default function BaseWallet({
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 text-white underline hover:text-white/70"
           >
-            <img src="/images/discord.svg" alt="Discord" className="w-5 h-5" />
+            <Image src="/images/discord.svg" alt="Discord" width={20} height={20} className="w-5 h-5" />
             Join the TokenTap Discord
           </a>
           <a

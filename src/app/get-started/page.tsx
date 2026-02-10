@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import CustomerCard from '@/components/CustomerCard'
 import { customers } from '@/components/customers'
 
@@ -20,9 +21,12 @@ export default function GetStartedPage() {
     <main className="min-h-screen relative flex flex-col bg-black text-white px-4 pt-10 pb-6 max-w-md mx-auto">
       {/* 🔷 Top-Left Logo */}
       <Link href="/" className="absolute top-4 left-4 z-10">
-        <img
+        <Image
           src="/images/ttt-logo.png"
           alt="TokenTap Logo"
+          width={40}
+          height={40}
+          priority
           className="w-10 h-10 object-contain"
         />
       </Link>
@@ -78,7 +82,7 @@ export default function GetStartedPage() {
           rel="noopener noreferrer"
           className="inline-flex items-center gap-2 text-white underline hover:text-white/70 cursor-pointer"
         >
-          <img src="/images/discord.svg" alt="Discord" className="w-5 h-5" />
+          <Image src="/images/discord.svg" alt="Discord" width={20} height={20} className="w-5 h-5" />
           Join the TokenTap Discord
         </a>
         <a

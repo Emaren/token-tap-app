@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 
 export default function Home() {
   const hour = new Date().getHours()
@@ -18,22 +19,26 @@ export default function Home() {
         className="mt-8 mb-6 relative w-32 h-32 md:w-40 md:h-40 cursor-pointer"
         aria-label="Toggle TokenTap color mode"
       >
-        <img
+        <Image
           src="/images/ttt-logo.png"
           alt="TokenTap Logo"
+          fill
+          sizes="(min-width: 768px) 10rem, 8rem"
+          priority
           className={`absolute inset-0 w-full h-full object-contain transition-opacity duration-150 ease-out ${
             colorMode ? 'opacity-100' : 'opacity-0'
           }`}
-          loading="eager"
         />
-        <img
+        <Image
           src="/images/pinktt-logo.png"
           alt=""
+          fill
+          sizes="(min-width: 768px) 10rem, 8rem"
+          priority
           aria-hidden="true"
           className={`absolute inset-0 w-full h-full object-contain transition-opacity duration-150 ease-out ${
             colorMode ? 'opacity-0' : 'opacity-100'
           }`}
-          loading="eager"
         />
       </button>
 

@@ -1,6 +1,7 @@
 "use client";
 
 import { useRouter } from 'next/navigation'
+import Image from 'next/image'
 
 const userId = "test_user_123"
 
@@ -97,7 +98,7 @@ export default function MorePricingPage() {
           rel="noopener noreferrer"
           className="inline-flex items-center gap-2 text-white underline hover:text-white/70 cursor-pointer"
         >
-          <img src="/images/discord.svg" alt="Discord" className="w-5 h-5" />
+          <Image src="/images/discord.svg" alt="Discord" width={20} height={20} className="w-5 h-5" />
           Join the TokenTap Discord
         </a>
         <a
