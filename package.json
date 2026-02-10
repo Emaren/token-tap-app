@@ -11,12 +11,12 @@
   "dependencies": {
     "@stripe/stripe-js": "^7.4.0",
     "html5-qrcode": "^2.3.8",
-    "next": "15.2.3",
+    "next": "^15.4.8",
     "next-plausible": "^3.12.4",
     "qr-scanner": "^1.4.2",
     "qrcode.react": "^4.2.0",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
+    "react": "^19.2.1",
+    "react-dom": "^19.2.1",
     "react-qr-code": "^2.0.16"
   },
   "devDependencies": {
