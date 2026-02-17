@@ -238,7 +238,6 @@ function SelectedCreaturePreview({ tile }: { tile: PreviewTile }) {
 export default function GetStartedPage() {
   const [showAll, setShowAll] = useState(false);
   const [selectedCreatureTiles, setSelectedCreatureTiles] = useState<PreviewTile[]>([]);
-  const [selectedCreatureSource, setSelectedCreatureSource] = useState<string>("");
 
   useEffect(() => {
     const update = () => {
@@ -248,7 +247,6 @@ export default function GetStartedPage() {
           tile.kind === "creature" && !!tile.creature
       );
       setSelectedCreatureTiles(creatureOnly.slice(0, 3));
-      setSelectedCreatureSource(res.source);
     };
 
     update();
@@ -300,33 +298,19 @@ export default function GetStartedPage() {
     },
   ];
 
-  const selectedCreatureTiers: Tier[] = selectedCreatureTiles.length
-    ? selectedCreatureTiles.map((tile, idx) => ({
-        name: `Selected Creature Wallet ${idx + 1}`,
-        sub: `“${tile.name}”`,
-        price: "Sandbox",
-        features: [
-          "Single selected creature preview",
-          "Uses the V2 selection tiles store",
-          "Perfect demo button",
-        ],
-        link: `/wally-wallet?selected=1&tile=${encodeURIComponent(tile.tileId)}`,
-        preview: "selected-creature",
-        selectedTile: tile,
-      }))
-    : [
-        {
-          name: "Selected Creature Wallet",
-          sub: "“Wallygotchi Preview”",
-          price: "Sandbox",
-          features: [
-            "No creatures selected yet",
-            `Source checked: ${selectedCreatureSource || "none"}`,
-            "Pick creatures in /creatures",
-          ],
-          link: "/creatures",
-        },
-      ];
+  const selectedCreatureTiers: Tier[] = selectedCreatureTiles.map((tile, idx) => ({
+    name: `Selected Creature Wallet ${idx + 1}`,
+    sub: `“${tile.name}”`,
+    price: "Sandbox",
+    features: [
+      "Single selected creature preview",
+      "Uses the V2 selection tiles store",
+      "Perfect demo button",
+    ],
+    link: `/wally-wallet?selected=1&tile=${encodeURIComponent(tile.tileId)}`,
+    preview: "selected-creature",
+    selectedTile: tile,
+  }));
 
   const tiers: Tier[] = [
     ...coreTiers,
