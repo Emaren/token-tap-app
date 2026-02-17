@@ -1,7 +1,7 @@
 // src/app/get-started/page.tsx
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import CustomerCard from "@/components/CustomerCard";
@@ -12,7 +12,7 @@ import {
   type StoredSelectedCreatureTileV2,
 } from "@/lib/selected-creature";
 
-type TierPreview = "selected-creatures" | "white-wally" | "dark-wally";
+type TierPreview = "selected-creature" | "white-wally" | "dark-wally";
 
 type Tier = {
   name: string;
@@ -21,6 +21,7 @@ type Tier = {
   features: string[];
   link: string;
   preview?: TierPreview;
+  selectedTile?: PreviewTile;
 };
 
 type PreviewTile = {
@@ -287,20 +288,63 @@ function DarkWallyPreview() {
   );
 }
 
-function SelectedCreaturesPreview() {
-  const [tiles, setTiles] = useState<PreviewTile[]>([]);
-  const [source, setSource] = useState<string>("");
+function SelectedCreaturePreview({ tile }: { tile: PreviewTile }) {
+  return (
+    <div className="mx-auto w-full max-w-[260px] pointer-events-none">
+      <div
+        className="relative aspect-square rounded-3xl border border-white/15 bg-black/30 overflow-hidden flex items-center justify-center"
+        style={{
+          boxShadow: "0 0 0 1px rgba(255,255,255,0.06), 0 18px 40px rgba(0,0,0,0.45)",
+        }}
+      >
+        {tile.kind === "image" && tile.imageSrc ? (
+          <Image
+            src={tile.imageSrc}
+            alt={tile.name}
+            fill
+            sizes="260px"
+            unoptimized
+            loader={({ src }) => src}
+            className="object-contain p-2"
+          />
+        ) : tile.kind === "markup" && tile.markup ? (
+          <div className="w-full h-full flex items-center justify-center p-2">
+            <div
+              className="w-[220px] h-[220px]"
+              style={{
+                transform: "scale(0.95)",
+                transformOrigin: "center",
+              }}
+              dangerouslySetInnerHTML={{ __html: tile.markup }}
+            />
+          </div>
+        ) : (
+          <div className="px-3 text-sm text-white/80 text-center leading-tight">{tile.name}</div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+export default function GetStartedPage() {
+  const [showAll, setShowAll] = useState(false);
+  const [selectedCreatureTiles, setSelectedCreatureTiles] = useState<PreviewTile[]>([]);
+  const [selectedCreatureSource, setSelectedCreatureSource] = useState<string>("");
 
   useEffect(() => {
     const update = () => {
       const res = loadBestEffortSelectedCreatureTiles();
-      setTiles(res.tiles);
-      setSource(res.source);
+      const ordered = [...res.tiles].reverse();
+      setSelectedCreatureTiles(ordered.slice(0, 3));
+      setSelectedCreatureSource(res.source);
     };
 
     update();
 
-    const unsub = typeof subscribeSelectedCreatureTiles === "function" ? subscribeSelectedCreatureTiles(update) : () => {};
+    const unsub =
+      typeof subscribeSelectedCreatureTiles === "function"
+        ? subscribeSelectedCreatureTiles(update)
+        : () => {};
 
     const onFocus = () => update();
     window.addEventListener("focus", onFocus);
@@ -311,78 +355,7 @@ function SelectedCreaturesPreview() {
     };
   }, []);
 
-  const visible = useMemo(() => {
-    const copy = [...tiles];
-    copy.reverse();
-    return copy.slice(0, 3);
-  }, [tiles]);
-
-  const anyRenderable = useMemo(() => visible.some(isRenderableTile), [visible]);
-
-  return (
-    <div className="w-full pointer-events-none">
-      {!visible.length ? (
-        <div className="py-3 text-sm text-white/60">No creatures selected yet (pick some in /creatures).</div>
-      ) : (
-        <>
-          <div className="flex flex-col items-center gap-4">
-            {visible.map((t) => (
-              <div key={t.tileId} className="mx-auto w-full max-w-[260px]">
-                <div
-                  className="relative aspect-square rounded-3xl border border-white/15 bg-black/30 overflow-hidden flex items-center justify-center"
-                  style={{
-                    boxShadow: "0 0 0 1px rgba(255,255,255,0.06), 0 18px 40px rgba(0,0,0,0.45)",
-                  }}
-                >
-                  {t.kind === "image" && t.imageSrc ? (
-                    <Image
-                      src={t.imageSrc}
-                      alt={t.name}
-                      fill
-                      sizes="260px"
-                      unoptimized
-                      loader={({ src }) => src}
-                      className="object-contain p-2"
-                    />
-                  ) : t.kind === "markup" && t.markup ? (
-                    <div className="w-full h-full flex items-center justify-center p-2">
-                      <div
-                        className="w-[220px] h-[220px]"
-                        style={{
-                          transform: "scale(0.95)",
-                          transformOrigin: "center",
-                        }}
-                        dangerouslySetInnerHTML={{ __html: t.markup }}
-                      />
-                    </div>
-                  ) : (
-                    <div className="px-3 text-sm text-white/80 text-center leading-tight">{t.name}</div>
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {tiles.length > visible.length && (
-            <div className="mt-2 text-xs text-white/50 text-center">+{tiles.length - visible.length} more selected</div>
-          )}
-
-          {/* Subtle hint if we only found text-only tiles */}
-          {!anyRenderable && (
-            <div className="mt-2 text-[11px] text-white/35 text-center">
-              Tile art not found for this origin (source: {source}). Re-select in /creatures on the same domain.
-            </div>
-          )}
-        </>
-      )}
-    </div>
-  );
-}
-
-export default function GetStartedPage() {
-  const [showAll, setShowAll] = useState(false);
-
-  const tiers: Tier[] = [
+  const coreTiers: Tier[] = [
     {
       name: "Demo",
       sub: "“Curious Explorer”",
@@ -413,14 +386,39 @@ export default function GetStartedPage() {
       features: ["Egg/furry skin playground", "Separate layout + animation", "Built for mobile PWA iteration"],
       link: "/wally-wallet-egg",
     },
-    {
-      name: "Selected Creature Wallet",
-      sub: "“Wallygotchi Preview”",
-      price: "Sandbox",
-      features: ["Shows the creatures you selected in /creatures", "Uses the V2 selection tiles store", "Perfect demo button"],
-      link: "/wally-wallet?selected=1",
-      preview: "selected-creatures",
-    },
+  ];
+
+  const selectedCreatureTiers: Tier[] = selectedCreatureTiles.length
+    ? selectedCreatureTiles.map((tile, idx) => ({
+        name: `Selected Creature Wallet ${idx + 1}`,
+        sub: `“${tile.name}”`,
+        price: "Sandbox",
+        features: [
+          "Single selected creature preview",
+          "Uses the V2 selection tiles store",
+          "Perfect demo button",
+        ],
+        link: `/wally-wallet?selected=1&tile=${encodeURIComponent(tile.tileId)}`,
+        preview: "selected-creature",
+        selectedTile: tile,
+      }))
+    : [
+        {
+          name: "Selected Creature Wallet",
+          sub: "“Wallygotchi Preview”",
+          price: "Sandbox",
+          features: [
+            "No creatures selected yet",
+            `Source checked: ${selectedCreatureSource || "none"}`,
+            "Pick creatures in /creatures",
+          ],
+          link: "/creatures",
+        },
+      ];
+
+  const tiers: Tier[] = [
+    ...coreTiers,
+    ...selectedCreatureTiers,
     {
       name: "Creatures",
       sub: "“Creature Gallery”",
@@ -472,10 +470,8 @@ export default function GetStartedPage() {
 
                 {tier.preview && (
                   <div className="mb-5 flex justify-center">
-                    {tier.preview === "selected-creatures" ? (
-                      <div className="w-full max-w-[340px]">
-                        <SelectedCreaturesPreview />
-                      </div>
+                    {tier.preview === "selected-creature" && tier.selectedTile ? (
+                      <SelectedCreaturePreview tile={tier.selectedTile} />
                     ) : tier.preview === "white-wally" ? (
                       <WhiteWallyPreview />
                     ) : tier.preview === "dark-wally" ? (
