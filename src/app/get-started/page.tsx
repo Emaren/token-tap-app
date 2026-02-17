@@ -14,7 +14,7 @@ import {
   type StoredSelectedCreatureTileV2,
 } from "@/lib/selected-creature";
 
-type TierPreview = "selected-creature" | "white-wally" | "dark-wally" | "egg-wally";
+type TierPreview = "selected-creature" | "white-wally" | "dark-wally" | "egg-3d" | "egg-wally";
 
 type Tier = {
   name: string;
@@ -164,8 +164,16 @@ function WhiteWallyPreview() {
     <div className="mx-auto w-full max-w-[260px] pointer-events-none">
       <div className="aspect-square flex items-center justify-center">
         <div style={{ animation: "ttTileBob 2600ms ease-in-out infinite", willChange: "transform" }}>
-          <div style={{ transform: "scale(0.95)" }}>
-            <WallyV0 variant="white" />
+          <div
+            className="w-[244px] h-[244px] rounded-3xl flex items-center justify-center"
+            style={{
+              background: "rgba(255,255,255,0.95)",
+              boxShadow: "0 0 0 1px rgba(0,0,0,0.10), 0 18px 60px rgba(0,0,0,0.25)",
+            }}
+          >
+            <div style={{ transform: "scale(0.95)" }}>
+              <WallyV0 variant="white" />
+            </div>
           </div>
         </div>
       </div>
@@ -178,9 +186,40 @@ function DarkWallyPreview() {
     <div className="mx-auto w-full max-w-[260px] pointer-events-none">
       <div className="aspect-square flex items-center justify-center">
         <div style={{ animation: "ttTileBob 2600ms ease-in-out infinite", willChange: "transform" }}>
-          <div style={{ transform: "scale(0.95)" }}>
-            <WallyV0 variant="dark" />
+          <div
+            className="w-[244px] h-[244px] rounded-3xl flex items-center justify-center"
+            style={{
+              background: "rgba(255,255,255,0.06)",
+              boxShadow: "0 0 0 1px rgba(255,255,255,0.10), 0 18px 60px rgba(0,0,0,0.55)",
+            }}
+          >
+            <div style={{ transform: "scale(0.95)" }}>
+              <WallyV0 variant="dark" />
+            </div>
           </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function Egg3DPreview() {
+  return (
+    <div className="mx-auto w-full max-w-[260px] pointer-events-none">
+      <div
+        className="relative aspect-square rounded-3xl overflow-hidden flex items-center justify-center bg-black/25"
+        style={{
+          boxShadow: "0 18px 60px rgba(0,0,0,0.55)",
+        }}
+      >
+        <div className="relative w-full h-full" style={{ animation: "ttTileBob 2600ms ease-in-out infinite", willChange: "transform" }}>
+          <Image
+            src="/images/Wallys/Egg.png"
+            alt="3D Egg"
+            fill
+            sizes="260px"
+            className="object-contain p-2"
+          />
         </div>
       </div>
     </div>
@@ -305,11 +344,19 @@ export default function GetStartedPage() {
       preview: "dark-wally",
     },
     {
+      name: "Wally Wallet (3D Egg Lab)",
+      sub: "“3D Egg Core”",
+      price: "WIP",
+      features: ["3D egg prototype", "Shape + silhouette testing", "Before fur skin pass"],
+      link: "/wally-wallet-egg?skin=egg",
+      preview: "egg-3d",
+    },
+    {
       name: "Wally Wallet (Egg/Furry Lab)",
       sub: "“3D Egg + Pixel Fur”",
       price: "WIP",
       features: ["Egg/furry skin playground", "Separate layout + animation", "Built for mobile PWA iteration"],
-      link: "/wally-wallet-egg",
+      link: "/wally-wallet-egg?skin=furry",
       preview: "egg-wally",
     },
   ];
@@ -399,6 +446,8 @@ export default function GetStartedPage() {
                       <WhiteWallyPreview />
                     ) : tier.preview === "dark-wally" ? (
                       <DarkWallyPreview />
+                    ) : tier.preview === "egg-3d" ? (
+                      <Egg3DPreview />
                     ) : tier.preview === "egg-wally" ? (
                       <EggWallyPreview />
                     ) : null}

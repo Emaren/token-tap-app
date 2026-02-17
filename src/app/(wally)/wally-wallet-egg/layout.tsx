@@ -10,7 +10,7 @@ export default function WallyWalletEggLayout({ children }: { children: ReactNode
   return (
     <main className="min-h-[100dvh] bg-black text-white">
       <header className="sticky top-0 z-10 bg-black/80 backdrop-blur border-b border-white/10">
-        <div className="mx-auto max-w-5xl px-4 py-3 flex items-center justify-between">
+        <div className="mx-auto w-full max-w-5xl px-3 sm:px-4 py-3 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-center gap-3">
             <div className="h-9 w-9 rounded-xl border border-white/15 bg-white/5 shadow-sm" />
             <div className="leading-tight">
@@ -19,9 +19,12 @@ export default function WallyWalletEggLayout({ children }: { children: ReactNode
             </div>
           </div>
 
-          <nav className="flex items-center gap-3 text-sm">
+          <nav className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm">
             <Link className="underline hover:opacity-70" href="/wally-wallet">
               White Lab
+            </Link>
+            <Link className="underline hover:opacity-70" href="/wally-wallet-dark">
+              Dark Lab
             </Link>
             <Link className="underline hover:opacity-70" href="/demo-wallet">
               Demo Wallet
@@ -33,7 +36,7 @@ export default function WallyWalletEggLayout({ children }: { children: ReactNode
         </div>
       </header>
 
-      <div className="mx-auto max-w-5xl px-4 py-6">{children}</div>
+      <div className="mx-auto w-full max-w-5xl px-3 sm:px-4 py-5 sm:py-6">{children}</div>
     </main>
   );
 }
