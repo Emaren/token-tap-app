@@ -5,6 +5,7 @@ import { promises as fs } from 'fs'
 export const runtime = 'nodejs'
 
 type ChatMsg = { sender: string; message: string; ts: string }
+type PostChatBody = { session_id?: unknown; sender?: unknown; message?: unknown }
 
 function dataDir() {
   return process.env.TOKENTAP_DATA_DIR || '/var/lib/tokentap'
@@ -18,10 +19,15 @@ export async function POST(req: NextRequest) {
   const chatDir = path.join(dataDir(), 'chat')
   await ensureDir(chatDir)
 
-  const body = await req.json().catch(() => ({} as any))
-  const session_id = String(body?.session_id ?? '')
-  const sender = String(body?.sender ?? '')
-  const message = String(body?.message ?? '')
+  const parsedBody: unknown = await req.json().catch(() => ({}))
+  const body =
+    parsedBody && typeof parsedBody === 'object'
+      ? (parsedBody as PostChatBody)
+      : {}
+  const session_id =
+    typeof body.session_id === 'string' ? body.session_id : ''
+  const sender = typeof body.sender === 'string' ? body.sender : ''
+  const message = typeof body.message === 'string' ? body.message : ''
 
   if (!session_id || !sender || !message) {
     return NextResponse.json({ error: 'Missing fields' }, { status: 400 })

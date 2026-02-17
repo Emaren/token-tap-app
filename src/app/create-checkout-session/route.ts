@@ -26,11 +26,20 @@ function getStripe() {
   return new Stripe(key)
 }
 
+function errorMessage(err: unknown, fallback: string) {
+  return err instanceof Error ? err.message : fallback
+}
+
 export async function POST(req: NextRequest) {
   try {
-    const body = await req.json().catch(() => null)
-    const price_id = body?.price_id as string | undefined
-    const uid = (body?.uid as string | undefined) ?? null
+    const parsedBody: unknown = await req.json().catch(() => null)
+    const body =
+      parsedBody && typeof parsedBody === 'object'
+        ? (parsedBody as Record<string, unknown>)
+        : {}
+    const price_id =
+      typeof body.price_id === 'string' ? body.price_id : undefined
+    const uid = typeof body.uid === 'string' ? body.uid : null
 
     if (!price_id || typeof price_id !== 'string') {
       return NextResponse.json({ error: 'price_id required' }, { status: 400 })
@@ -61,9 +70,9 @@ export async function POST(req: NextRequest) {
     })
 
     return NextResponse.json({ id: session.id, url: session.url })
-  } catch (err: any) {
+  } catch (err: unknown) {
     return NextResponse.json(
-      { error: err?.message ?? 'create-checkout-session failed' },
+      { error: errorMessage(err, 'create-checkout-session failed') },
       { status: 500 }
     )
   }

@@ -31,8 +31,15 @@ type PreviewTile = {
   markup?: string;
 };
 
+type TileRecord = Record<string, unknown>;
+
 function isRenderableTile(t: PreviewTile) {
   return (t.kind === "image" && !!t.imageSrc) || (t.kind === "markup" && !!t.markup);
+}
+
+function asRecord(value: unknown): TileRecord | null {
+  if (!value || typeof value !== "object") return null;
+  return value as TileRecord;
 }
 
 function safeParseJson(raw: string | null): unknown {
@@ -48,29 +55,41 @@ function coerceTilesFromUnknown(value: unknown): PreviewTile[] {
   if (!value) return [];
 
   // allow { items: [...] } or { tiles: [...] } shapes
-  const maybeArray =
-    Array.isArray(value) ? value : (value as any)?.items ?? (value as any)?.tiles ?? (value as any)?.data;
+  const valueRecord = asRecord(value);
+  const maybeArray = Array.isArray(value)
+    ? value
+    : valueRecord?.items ?? valueRecord?.tiles ?? valueRecord?.data;
 
   const arr = Array.isArray(maybeArray) ? maybeArray : [];
 
   return arr
-    .map((v: any, idx: number): PreviewTile | null => {
-      if (!v || typeof v !== "object") return null;
+    .map((v, idx: number): PreviewTile | null => {
+      const rec = asRecord(v);
+      if (!rec) return null;
 
-      const name = String(v.name ?? v.label ?? v.title ?? v.creatureName ?? `Creature ${idx + 1}`);
-      const tileId = String(v.tileId ?? v.id ?? v.key ?? v.creatureId ?? name ?? idx);
+      const name = String(
+        rec.name ?? rec.label ?? rec.title ?? rec.creatureName ?? `Creature ${idx + 1}`
+      );
+      const tileId = String(rec.tileId ?? rec.id ?? rec.key ?? rec.creatureId ?? name ?? idx);
 
-      const markup = typeof v.markup === "string" ? v.markup : typeof v.html === "string" ? v.html : typeof v.tileMarkup === "string" ? v.tileMarkup : undefined;
+      const markup =
+        typeof rec.markup === "string"
+          ? rec.markup
+          : typeof rec.html === "string"
+            ? rec.html
+            : typeof rec.tileMarkup === "string"
+              ? rec.tileMarkup
+              : undefined;
       const imageSrc =
-        typeof v.imageSrc === "string"
-          ? v.imageSrc
-          : typeof v.src === "string"
-            ? v.src
-            : typeof v.image === "string"
-              ? v.image
+        typeof rec.imageSrc === "string"
+          ? rec.imageSrc
+          : typeof rec.src === "string"
+            ? rec.src
+            : typeof rec.image === "string"
+              ? rec.image
               : undefined;
 
-      const kindRaw = typeof v.kind === "string" ? v.kind : undefined;
+      const kindRaw = typeof rec.kind === "string" ? rec.kind : undefined;
       const kind: PreviewTile["kind"] =
         kindRaw === "image" || kindRaw === "markup" || kindRaw === "text"
           ? kindRaw
@@ -88,10 +107,17 @@ function coerceTilesFromUnknown(value: unknown): PreviewTile[] {
 function loadBestEffortSelectedCreatureTiles(): { tiles: PreviewTile[]; source: string } {
   // 1) Preferred: whatever your lib returns
   const libTiles = (loadSelectedCreatureTiles?.() ?? []) as StoredSelectedCreatureTileV2[];
-  const normalizedFromLib: PreviewTile[] = libTiles.map((t: any) => ({
-    tileId: String(t.tileId ?? t.id ?? t.key ?? t.name),
+  const normalizedFromLib: PreviewTile[] = libTiles.map((t) => ({
+    tileId: String(t.tileId ?? t.id ?? t.name),
     name: String(t.name ?? "Creature"),
-    kind: (t.kind === "image" || t.kind === "markup" || t.kind === "text" ? t.kind : t.markup ? "markup" : t.imageSrc ? "image" : "text") as PreviewTile["kind"],
+    kind:
+      t.kind === "image" || t.kind === "markup"
+        ? t.kind
+        : t.markup
+          ? "markup"
+          : t.imageSrc
+            ? "image"
+            : "text",
     imageSrc: typeof t.imageSrc === "string" ? t.imageSrc : undefined,
     markup: typeof t.markup === "string" ? t.markup : undefined,
   }));

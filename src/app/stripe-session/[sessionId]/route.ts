@@ -10,6 +10,10 @@ function getStripe() {
   return new Stripe(key) // ✅ don’t hardcode apiVersion; SDK pins its own
 }
 
+function errorMessage(err: unknown, fallback: string) {
+  return err instanceof Error ? err.message : fallback
+}
+
 type Ctx = { params: Promise<{ sessionId: string }> }
 
 export async function GET(_req: NextRequest, ctx: Ctx) {
@@ -29,9 +33,9 @@ export async function GET(_req: NextRequest, ctx: Ctx) {
       customer_email: session.customer_details?.email ?? null,
       payment_status: session.payment_status ?? null,
     })
-  } catch (err: any) {
+  } catch (err: unknown) {
     return NextResponse.json(
-      { error: err?.message ?? 'stripe-session lookup failed' },
+      { error: errorMessage(err, 'stripe-session lookup failed') },
       { status: 500 }
     )
   }

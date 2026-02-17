@@ -50,6 +50,8 @@ venv-logs/
 venv-logs/venv-freeze-*.log
 venv-logs/venv-freeze-*.log.prev
 tmp_stash/
+*.bak
+*.bak.*
 
 # Local-only tools
 sanity

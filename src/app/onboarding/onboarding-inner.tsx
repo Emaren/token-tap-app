@@ -17,6 +17,10 @@ type SessionData = {
   error?: string;
 };
 
+function errorMessage(err: unknown, fallback: string) {
+  return err instanceof Error ? err.message : fallback;
+}
+
 export default function OnboardingInner() {
   const searchParams = useSearchParams();
   const sessionId = searchParams.get("session_id");
@@ -70,9 +74,11 @@ export default function OnboardingInner() {
           // If chat is empty or errors, just start with no messages.
           setMessages([]);
         }
-      } catch (e: any) {
+      } catch (err: unknown) {
         if (!alive) return;
-        setSessionData({ error: e?.message ?? "Failed to load onboarding data" });
+        setSessionData({
+          error: errorMessage(err, "Failed to load onboarding data"),
+        });
         setMessages([]);
       } finally {
         if (!alive) return;

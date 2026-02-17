@@ -108,8 +108,8 @@ function isValidCreatureKind(v: unknown): v is SelectedCreatureKind {
 
 function uuid(): string {
   try {
-    const c = (globalThis as any).crypto;
-    if (c?.randomUUID) return c.randomUUID();
+    const cryptoApi = globalThis.crypto;
+    if (cryptoApi?.randomUUID) return cryptoApi.randomUUID();
   } catch {
     // ignore
   }
@@ -380,7 +380,7 @@ function sanitizeTileV2(t: Partial<StoredSelectedCreatureTileV2> | null): Stored
     imageSrc: t.imageSrc,
     markup: t.markup,
     creature: t.creature,
-    selectedAt: t.selectedAt as any,
+    selectedAt: t.selectedAt,
   });
 
   if (!v1) return null;
@@ -407,7 +407,7 @@ function sanitizeTilesDocV2(doc: unknown): StoredSelectedCreatureTilesDocV2 | nu
   const rawItems = Array.isArray(d.items) ? d.items : [];
   const items: StoredSelectedCreatureTileV2[] = [];
   for (const raw of rawItems) {
-    const clean = sanitizeTileV2(raw as any);
+    const clean = sanitizeTileV2(raw);
     if (clean) items.push(clean);
   }
 
