@@ -314,79 +314,51 @@ function SelectedCreaturesPreview() {
   const visible = useMemo(() => {
     const copy = [...tiles];
     copy.reverse();
-    return copy.slice(0, 6);
+    return copy.slice(0, 3);
   }, [tiles]);
 
   const anyRenderable = useMemo(() => visible.some(isRenderableTile), [visible]);
 
   return (
     <div className="w-full pointer-events-none">
-      <style jsx global>{`
-        @keyframes blink {
-          0%,
-          92%,
-          100% {
-            transform: scaleY(1);
-          }
-          94%,
-          96% {
-            transform: scaleY(0.1);
-          }
-        }
-        @keyframes pupil {
-          0%,
-          100% {
-            transform: translate(0px, 0px);
-          }
-          50% {
-            transform: translate(2px, 1px);
-          }
-        }
-        @keyframes bob {
-          0%,
-          100% {
-            transform: translateY(0px);
-          }
-          50% {
-            transform: translateY(-8px);
-          }
-        }
-        @keyframes breathe {
-          0%,
-          100% {
-            transform: translateY(0px) scale(1);
-          }
-          50% {
-            transform: translateY(-4px) scale(1.02);
-          }
-        }
-      `}</style>
-
       {!visible.length ? (
         <div className="py-3 text-sm text-white/60">No creatures selected yet (pick some in /creatures).</div>
       ) : (
         <>
-          <div className="flex flex-wrap items-center justify-center gap-3">
+          <div className="flex flex-col items-center gap-4">
             {visible.map((t) => (
-              <div
-                key={t.tileId}
-                className="w-[92px] h-[92px] rounded-2xl border border-white/15 bg-black/20 flex items-center justify-center overflow-hidden"
-              >
-                {t.kind === "image" && t.imageSrc ? (
-                  <img src={t.imageSrc} alt={t.name} className="w-full h-full object-contain" />
-                ) : t.kind === "markup" && t.markup ? (
-                  <div className="w-full h-full flex items-center justify-center">
-                    <div
-                      style={{
-                        transform: "scale(0.35)",
-                        transformOrigin: "center",
-                      }}
-                      dangerouslySetInnerHTML={{ __html: t.markup }}
+              <div key={t.tileId} className="mx-auto w-full max-w-[260px]">
+                <div
+                  className="relative aspect-square rounded-3xl border border-white/15 bg-black/30 overflow-hidden flex items-center justify-center"
+                  style={{
+                    boxShadow: "0 0 0 1px rgba(255,255,255,0.06), 0 18px 40px rgba(0,0,0,0.45)",
+                  }}
+                >
+                  {t.kind === "image" && t.imageSrc ? (
+                    <Image
+                      src={t.imageSrc}
+                      alt={t.name}
+                      fill
+                      sizes="260px"
+                      unoptimized
+                      loader={({ src }) => src}
+                      className="object-contain p-2"
                     />
-                  </div>
-                ) : (
-                  <div className="px-2 text-[11px] text-white/70 text-center leading-tight">{t.name}</div>
-                )}
+                  ) : t.kind === "markup" && t.markup ? (
+                    <div className="w-full h-full flex items-center justify-center p-2">
+                      <div
+                        className="w-[220px] h-[220px]"
+                        style={{
+                          transform: "scale(0.95)",
+                          transformOrigin: "center",
+                        }}
+                        dangerouslySetInnerHTML={{ __html: t.markup }}
+                      />
+                    </div>
+                  ) : (
+                    <div className="px-3 text-sm text-white/80 text-center leading-tight">{t.name}</div>
+                  )}
+                </div>
               </div>
             ))}
           </div>
