@@ -1,9 +1,9 @@
 "use client";
 
-import { useRouter } from 'next/navigation'
-import Image from 'next/image'
+import { useRouter } from "next/navigation";
+import Image from "next/image";
 
-const userId = "test_user_123"
+const userId = "test_user_123";
 
 const tiers = [
   {
@@ -11,7 +11,11 @@ const tiers = [
     sub: "“The Creator”",
     price: "$9",
     priceId: "price_1RgzBgHvc4wl41HLVnLSplws",
-    features: ["Single token creation", "TokenTap wallet support", "Block explorer support"],
+    features: [
+      "Single token creation",
+      "TokenTap wallet support",
+      "Block explorer support",
+    ],
   },
   {
     name: "Starter Monthly",
@@ -41,29 +45,36 @@ const tiers = [
     priceId: "price_1RgzFdHvc4wl41HLdH8hCwJp",
     features: ["Unlimited access", "DEX listing", "Dedicated support"],
   },
-]
+];
 
 async function handleCheckout(priceId: string, uid: string) {
-    const res = await fetch("http://localhost:8000/create-checkout-session/", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ price_id: priceId, uid }),
-    })
-  
-    const data = await res.json()
-    if (data?.url && data?.id) {
-      window.location.href = data.url
-    } else {
-      console.error("❌ Stripe Checkout response missing", data)
-    }
-  }  
+  const res = await fetch("/create-checkout-session", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ price_id: priceId, uid }),
+  });
+
+  const data = await res.json().catch(() => null);
+
+  if (res.ok && data?.url && data?.id) {
+    window.location.href = data.url;
+    return;
+  }
+
+  console.error("❌ Stripe Checkout response missing/invalid", {
+    status: res.status,
+    data,
+  });
+}
 
 export default function MorePricingPage() {
-  const router = useRouter()
+  const router = useRouter();
 
   return (
     <main className="min-h-screen bg-black text-white px-4 pt-10 pb-10 max-w-md mx-auto flex flex-col">
-      <h1 className="text-2xl font-bold text-center mb-6">Subscription Options</h1>
+      <h1 className="text-2xl font-bold text-center mb-6">
+        Subscription Options
+      </h1>
 
       <div className="space-y-6 flex-grow">
         {tiers.map((tier, index) => (
@@ -90,15 +101,22 @@ export default function MorePricingPage() {
       >
         ← Back
       </button>
-            {/* Bottom Links */}
-            <section className="mt-10 text-center space-y-2 text-sm">
+
+      {/* Bottom Links */}
+      <section className="mt-10 text-center space-y-2 text-sm">
         <a
           href="https://discord.gg/RYNBKz7n9y"
           target="_blank"
           rel="noopener noreferrer"
           className="inline-flex items-center gap-2 text-white underline hover:text-white/70 cursor-pointer"
         >
-          <Image src="/images/discord.svg" alt="Discord" width={20} height={20} className="w-5 h-5" />
+          <Image
+            src="/images/discord.svg"
+            alt="Discord"
+            width={20}
+            height={20}
+            className="w-5 h-5"
+          />
           Join the TokenTap Discord
         </a>
         <a
@@ -107,7 +125,8 @@ export default function MorePricingPage() {
         >
           Contact TokenTap
         </a>
-        </section> {/* Bottom Links */}
+      </section>
+      {/* Bottom Links */}
     </main>
-  )
+  );
 }
