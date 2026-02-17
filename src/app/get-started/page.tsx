@@ -6,9 +6,11 @@ import Link from "next/link";
 import Image from "next/image";
 import CustomerCard from "@/components/CustomerCard";
 import { customers } from "@/components/customers";
+import CreatureSprite from "@/components/CreatureSprite";
 import {
   loadSelectedCreatureTiles,
   subscribeSelectedCreatureTiles,
+  type StoredCreatureV1,
   type StoredSelectedCreatureTileV2,
 } from "@/lib/selected-creature";
 
@@ -27,146 +29,51 @@ type Tier = {
 type PreviewTile = {
   tileId: string;
   name: string;
-  kind: "image" | "markup" | "text";
+  kind: "image" | "markup" | "creature" | "text";
   imageSrc?: string;
   markup?: string;
+  creature?: StoredCreatureV1;
 };
 
-type TileRecord = Record<string, unknown>;
-
-function isRenderableTile(t: PreviewTile) {
-  return (t.kind === "image" && !!t.imageSrc) || (t.kind === "markup" && !!t.markup);
-}
-
-function asRecord(value: unknown): TileRecord | null {
-  if (!value || typeof value !== "object") return null;
-  return value as TileRecord;
-}
-
-function safeParseJson(raw: string | null): unknown {
-  if (!raw) return null;
-  try {
-    return JSON.parse(raw);
-  } catch {
-    return null;
-  }
-}
-
-function coerceTilesFromUnknown(value: unknown): PreviewTile[] {
-  if (!value) return [];
-
-  // allow { items: [...] } or { tiles: [...] } shapes
-  const valueRecord = asRecord(value);
-  const maybeArray = Array.isArray(value)
-    ? value
-    : valueRecord?.items ?? valueRecord?.tiles ?? valueRecord?.data;
-
-  const arr = Array.isArray(maybeArray) ? maybeArray : [];
-
-  return arr
-    .map((v, idx: number): PreviewTile | null => {
-      const rec = asRecord(v);
-      if (!rec) return null;
-
-      const name = String(
-        rec.name ?? rec.label ?? rec.title ?? rec.creatureName ?? `Creature ${idx + 1}`
-      );
-      const tileId = String(rec.tileId ?? rec.id ?? rec.key ?? rec.creatureId ?? name ?? idx);
-
-      const markup =
-        typeof rec.markup === "string"
-          ? rec.markup
-          : typeof rec.html === "string"
-            ? rec.html
-            : typeof rec.tileMarkup === "string"
-              ? rec.tileMarkup
-              : undefined;
-      const imageSrc =
-        typeof rec.imageSrc === "string"
-          ? rec.imageSrc
-          : typeof rec.src === "string"
-            ? rec.src
-            : typeof rec.image === "string"
-              ? rec.image
-              : undefined;
-
-      const kindRaw = typeof rec.kind === "string" ? rec.kind : undefined;
-      const kind: PreviewTile["kind"] =
-        kindRaw === "image" || kindRaw === "markup" || kindRaw === "text"
-          ? kindRaw
-          : markup
-            ? "markup"
-            : imageSrc
-              ? "image"
-              : "text";
-
-      return { tileId, name, kind, markup, imageSrc };
-    })
-    .filter(Boolean) as PreviewTile[];
-}
-
 function loadBestEffortSelectedCreatureTiles(): { tiles: PreviewTile[]; source: string } {
-  // 1) Preferred: whatever your lib returns
   const libTiles = (loadSelectedCreatureTiles?.() ?? []) as StoredSelectedCreatureTileV2[];
-  const normalizedFromLib: PreviewTile[] = libTiles.map((t) => ({
-    tileId: String(t.tileId ?? t.id ?? t.name),
-    name: String(t.name ?? "Creature"),
-    kind:
-      t.kind === "image" || t.kind === "markup"
-        ? t.kind
-        : t.markup
-          ? "markup"
-          : t.imageSrc
-            ? "image"
-            : "text",
-    imageSrc: typeof t.imageSrc === "string" ? t.imageSrc : undefined,
-    markup: typeof t.markup === "string" ? t.markup : undefined,
-  }));
-
-  // If the lib gives us *real render data*, stop here.
-  if (normalizedFromLib.some(isRenderableTile)) {
-    return { tiles: normalizedFromLib, source: "lib" };
-  }
-
-  // 2) Try common keys in localStorage/sessionStorage (and also scan for “creature” keys)
-  const storages: Array<{ storage: Storage; label: string }> = [];
-  if (typeof window !== "undefined") {
-    storages.push({ storage: window.localStorage, label: "localStorage" });
-    storages.push({ storage: window.sessionStorage, label: "sessionStorage" });
-  }
-
-  const commonKeys = [
-    "tokentap:selectedCreatureTilesV2",
-    "selectedCreatureTilesV2",
-    "selectedCreatureTiles",
-    "tokentap:selectedCreatureTiles",
-    "tokentap:selectedCreatures",
-    "selectedCreatures",
-    "selectedCreaturesV1",
-  ];
-
-  for (const { storage, label } of storages) {
-    // common keys first
-    for (const k of commonKeys) {
-      const parsed = safeParseJson(storage.getItem(k));
-      const tiles = coerceTilesFromUnknown(parsed);
-      if (tiles.some(isRenderableTile)) return { tiles, source: `${label}:${k}` };
+  const normalizedFromLib: PreviewTile[] = libTiles.map((t) => {
+    if (t.kind === "creature" && t.creature) {
+      return {
+        tileId: String(t.tileId ?? t.id ?? t.name),
+        name: String(t.name ?? t.creature.name ?? "Creature"),
+        kind: "creature",
+        creature: t.creature,
+        markup: typeof t.markup === "string" ? t.markup : undefined,
+      };
     }
 
-    // then scan any key containing "creature"
-    for (let i = 0; i < storage.length; i++) {
-      const k = storage.key(i);
-      if (!k) continue;
-      if (!k.toLowerCase().includes("creature")) continue;
-
-      const parsed = safeParseJson(storage.getItem(k));
-      const tiles = coerceTilesFromUnknown(parsed);
-      if (tiles.some(isRenderableTile)) return { tiles, source: `${label}:${k}` };
+    if (t.kind === "image" && typeof t.imageSrc === "string") {
+      return {
+        tileId: String(t.tileId ?? t.id ?? t.name),
+        name: String(t.name ?? "Creature"),
+        kind: "image",
+        imageSrc: t.imageSrc,
+      };
     }
-  }
 
-  // 3) If we still don’t have renderable tiles, fall back to the lib’s output (likely text-only placeholders)
-  return { tiles: normalizedFromLib, source: "fallback-text-only" };
+    if (t.kind === "markup" && typeof t.markup === "string") {
+      return {
+        tileId: String(t.tileId ?? t.id ?? t.name),
+        name: String(t.name ?? "Creature"),
+        kind: "markup",
+        markup: t.markup,
+      };
+    }
+
+    return {
+      tileId: String(t.tileId ?? t.id ?? t.name),
+      name: String(t.name ?? "Creature"),
+      kind: "text",
+    };
+  });
+
+  return { tiles: normalizedFromLib, source: "selected-creatures-v2" };
 }
 
 function WallyV0({ variant }: { variant: "white" | "dark" }) {
@@ -297,7 +204,9 @@ function SelectedCreaturePreview({ tile }: { tile: PreviewTile }) {
           boxShadow: "0 0 0 1px rgba(255,255,255,0.06), 0 18px 40px rgba(0,0,0,0.45)",
         }}
       >
-        {tile.kind === "image" && tile.imageSrc ? (
+        {tile.kind === "creature" && tile.creature ? (
+          <CreatureSprite c={tile.creature} />
+        ) : tile.kind === "image" && tile.imageSrc ? (
           <Image
             src={tile.imageSrc}
             alt={tile.name}
@@ -335,7 +244,11 @@ export default function GetStartedPage() {
     const update = () => {
       const res = loadBestEffortSelectedCreatureTiles();
       const ordered = [...res.tiles].reverse();
-      setSelectedCreatureTiles(ordered.slice(0, 3));
+      const creatureOnly = ordered.filter(
+        (tile): tile is PreviewTile & { kind: "creature"; creature: StoredCreatureV1 } =>
+          tile.kind === "creature" && !!tile.creature
+      );
+      setSelectedCreatureTiles(creatureOnly.slice(0, 3));
       setSelectedCreatureSource(res.source);
     };
 
