@@ -169,8 +169,10 @@ function WhiteWallyPreview() {
           boxShadow: "0 0 0 1px rgba(0,0,0,0.10), 0 18px 60px rgba(0,0,0,0.25)",
         }}
       >
-        <div style={{ transform: "scale(0.95)" }}>
-          <WallyV0 variant="white" />
+        <div style={{ animation: "ttTileBob 2600ms ease-in-out infinite", willChange: "transform" }}>
+          <div style={{ transform: "scale(0.95)" }}>
+            <WallyV0 variant="white" />
+          </div>
         </div>
       </div>
     </div>
@@ -187,8 +189,10 @@ function DarkWallyPreview() {
           boxShadow: "0 0 0 1px rgba(255,255,255,0.10), 0 18px 60px rgba(0,0,0,0.55)",
         }}
       >
-        <div style={{ transform: "scale(0.95)" }}>
-          <WallyV0 variant="dark" />
+        <div style={{ animation: "ttTileBob 2600ms ease-in-out infinite", willChange: "transform" }}>
+          <div style={{ transform: "scale(0.95)" }}>
+            <WallyV0 variant="dark" />
+          </div>
         </div>
       </div>
     </div>
@@ -204,13 +208,15 @@ function EggWallyPreview() {
           boxShadow: "0 18px 60px rgba(0,0,0,0.55)",
         }}
       >
-        <Image
-          src="/images/Wallys/Wally%20t.png"
-          alt="Wally t"
-          fill
-          sizes="260px"
-          className="object-contain p-2"
-        />
+        <div className="relative w-full h-full" style={{ animation: "ttTileBob 2600ms ease-in-out infinite", willChange: "transform" }}>
+          <Image
+            src="/images/Wallys/Wally%20t.png"
+            alt="Wally t"
+            fill
+            sizes="260px"
+            className="object-contain p-2"
+          />
+        </div>
       </div>
     </div>
   );
@@ -348,6 +354,17 @@ export default function GetStartedPage() {
 
   return (
     <main className="min-h-screen relative bg-black text-white px-4 pt-10 pb-10 max-w-md mx-auto">
+      <style jsx global>{`
+        @keyframes ttTileBob {
+          0%,
+          100% {
+            transform: translateY(0);
+          }
+          50% {
+            transform: translateY(-8px);
+          }
+        }
+      `}</style>
       <Link href="/" className="absolute top-4 left-4 z-10">
         <Image
           src="/images/ttt-logo.png"
