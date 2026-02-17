@@ -14,7 +14,7 @@ import {
   type StoredSelectedCreatureTileV2,
 } from "@/lib/selected-creature";
 
-type TierPreview = "selected-creature" | "white-wally" | "dark-wally";
+type TierPreview = "selected-creature" | "white-wally" | "dark-wally" | "egg-wally";
 
 type Tier = {
   name: string;
@@ -195,6 +195,27 @@ function DarkWallyPreview() {
   );
 }
 
+function EggWallyPreview() {
+  return (
+    <div className="mx-auto w-full max-w-[260px] pointer-events-none">
+      <div
+        className="relative aspect-square rounded-3xl overflow-hidden flex items-center justify-center bg-black/25"
+        style={{
+          boxShadow: "0 18px 60px rgba(0,0,0,0.55)",
+        }}
+      >
+        <Image
+          src="/images/Wallys/Wally%20t.png"
+          alt="Wally t"
+          fill
+          sizes="260px"
+          className="object-contain p-2"
+        />
+      </div>
+    </div>
+  );
+}
+
 function SelectedCreaturePreview({ tile }: { tile: PreviewTile }) {
   return (
     <div className="mx-auto w-full max-w-[260px] pointer-events-none">
@@ -295,6 +316,7 @@ export default function GetStartedPage() {
       price: "WIP",
       features: ["Egg/furry skin playground", "Separate layout + animation", "Built for mobile PWA iteration"],
       link: "/wally-wallet-egg",
+      preview: "egg-wally",
     },
   ];
 
@@ -372,6 +394,8 @@ export default function GetStartedPage() {
                       <WhiteWallyPreview />
                     ) : tier.preview === "dark-wally" ? (
                       <DarkWallyPreview />
+                    ) : tier.preview === "egg-wally" ? (
+                      <EggWallyPreview />
                     ) : null}
                   </div>
                 )}

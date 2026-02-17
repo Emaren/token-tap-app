@@ -1,7 +1,8 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 function clamp(n: number, a: number, b: number) {
   return Math.max(a, Math.min(b, n));
@@ -12,28 +13,15 @@ export default function WallyWalletEggPage() {
   const startRef = useRef<number>(0);
 
   const [bobY, setBobY] = useState(0);
-  const [blink, setBlink] = useState(false);
-
-  // small random-ish blink timing
-  const nextBlinkAt = useMemo(() => ({ t: 0 }), []);
 
   useEffect(() => {
     startRef.current = performance.now();
-    nextBlinkAt.t = startRef.current + 1200;
 
     const loop = (t: number) => {
       const dt = t - startRef.current;
 
-      // Bob
       const y = Math.sin(dt / 520) * 6;
       setBobY(y);
-
-      // Blink (brief)
-      if (t > nextBlinkAt.t) {
-        setBlink(true);
-        window.setTimeout(() => setBlink(false), 90);
-        nextBlinkAt.t = t + 1400 + Math.random() * 2200;
-      }
 
       rafRef.current = requestAnimationFrame(loop);
     };
@@ -42,9 +30,7 @@ export default function WallyWalletEggPage() {
     return () => {
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
     };
-  }, [nextBlinkAt]);
-
-  const eyeScaleY = blink ? 0.12 : 1;
+  }, []);
 
   return (
     <div className="space-y-6">
@@ -86,39 +72,21 @@ export default function WallyWalletEggPage() {
               style={{ transform: `translateY(${clamp(bobY, -10, 10)}px)`, willChange: "transform" }}
               aria-label="Egg/Furry Wally"
             >
-              {/* shadow */}
-              <div className="absolute left-1/2 -translate-x-1/2 top-[280px] w-[210px] h-[26px] rounded-full bg-black/60 blur-[2px]" />
-
-              {/* egg body */}
-              <div className="relative w-[240px] h-[300px] rounded-[999px] border border-white/15 bg-white/5 shadow-[0_24px_60px_rgba(0,0,0,0.6)] overflow-hidden">
-                {/* highlight */}
-                <div className="absolute -left-10 top-8 w-40 h-56 rounded-[999px] bg-white/10 blur-[2px]" />
-                {/* “fur ring” placeholder */}
-                <div className="absolute left-1/2 -translate-x-1/2 top-[92px] w-[210px] h-[140px] rounded-[999px] border border-white/10 bg-white/5" />
-
-                {/* eyes */}
-                <div className="absolute left-1/2 -translate-x-1/2 top-[140px] flex gap-[46px]">
-                  <div
-                    className="w-[18px] h-[18px] rounded-full bg-white"
-                    style={{ transform: `scaleY(${eyeScaleY})`, transformOrigin: "50% 50%", willChange: "transform" }}
-                  />
-                  <div
-                    className="w-[18px] h-[18px] rounded-full bg-white"
-                    style={{ transform: `scaleY(${eyeScaleY})`, transformOrigin: "50% 50%", willChange: "transform" }}
-                  />
-                </div>
-
-                {/* mouth */}
-                <div className="absolute left-1/2 -translate-x-1/2 top-[184px] w-[54px] h-[22px] border-b-[3px] border-white/60 rounded-b-full" />
-
-                <div className="absolute left-1/2 -translate-x-1/2 bottom-[18px] text-[11px] text-white/50">
-                  EGG WALLY v0
-                </div>
+              <div className="absolute left-1/2 -translate-x-1/2 top-[278px] w-[220px] h-[28px] rounded-full bg-black/60 blur-[2px]" />
+              <div className="relative w-[260px] h-[300px] md:w-[300px] md:h-[340px]">
+                <Image
+                  src="/images/Wallys/Wally%20t.png"
+                  alt="Wally t"
+                  fill
+                  priority
+                  sizes="(max-width: 768px) 260px, 300px"
+                  className="object-contain drop-shadow-[0_24px_60px_rgba(0,0,0,0.65)]"
+                />
               </div>
             </div>
 
             <div className="mt-6 text-sm text-white/60">
-              First animation: bob + blink (requestAnimationFrame).
+              Wally t image preview with bob animation.
             </div>
           </div>
         </div>
