@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import PlausibleProvider from "next-plausible";
+import ThemeSwitcher from "@/components/ThemeSwitcher";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -46,6 +47,21 @@ export default function RootLayout({
             `,
           }}
         />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function () {
+                try {
+                  var t = localStorage.getItem('tokentap.theme.v1') || 'black';
+                  if (!/^(grey|black|white|sepia)$/.test(t)) t = 'black';
+                  document.documentElement.setAttribute('data-tt-theme', t);
+                } catch (e) {
+                  document.documentElement.setAttribute('data-tt-theme', 'black');
+                }
+              })();
+            `,
+          }}
+        />
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="description" content="Loyalty & payments using branded tokens on TokenChain" />
@@ -60,7 +76,8 @@ export default function RootLayout({
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <PlausibleProvider domain="tokentap.ca" trackLocalhost={true} />
-        {children}
+        <ThemeSwitcher />
+        <div className="tt-theme-content">{children}</div>
       </body>
     </html>
   );

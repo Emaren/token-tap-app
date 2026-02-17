@@ -10,7 +10,13 @@ type Props = {
 
 export default function SelectedWalletTileArt({ tile }: Props) {
   if (tile.kind === "creature" && tile.creature) {
-    return <CreatureSprite c={tile.creature} />;
+    return (
+      <div className="w-full h-full flex items-center justify-center">
+        <div className="scale-[1.15] sm:scale-[1.22] origin-center">
+          <CreatureSprite c={tile.creature} />
+        </div>
+      </div>
+    );
   }
 
   if (tile.kind === "image" && tile.imageSrc) {
@@ -31,8 +37,8 @@ export default function SelectedWalletTileArt({ tile }: Props) {
     return (
       <div className="w-full h-full flex items-center justify-center">
         <div
-          className="w-[240px] h-[240px]"
-          style={{ transform: "scale(0.95)", transformOrigin: "center" }}
+          className="w-[260px] h-[260px] sm:w-[300px] sm:h-[300px]"
+          style={{ transform: "scale(1.05)", transformOrigin: "center" }}
           dangerouslySetInnerHTML={{ __html: tile.markup }}
         />
       </div>

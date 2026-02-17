@@ -116,7 +116,10 @@ function WallyWalletDarkLabPageContent() {
           <div className="flex flex-col items-center justify-center py-4 sm:py-8">
             {selectedMode ? (
               selectedTile ? (
-                <div className="relative w-[240px] h-[240px] sm:w-[280px] sm:h-[280px] flex items-center justify-center">
+                <div
+                  className="relative w-[280px] h-[280px] sm:w-[340px] sm:h-[340px] rounded-3xl border border-white/15 bg-white/[0.03] overflow-hidden flex items-center justify-center"
+                  style={{ animation: "ttWalletBobDark 2600ms ease-in-out infinite", willChange: "transform" }}
+                >
                   <SelectedWalletTileArt tile={selectedTile} />
                 </div>
               ) : (

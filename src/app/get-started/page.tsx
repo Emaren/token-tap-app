@@ -214,7 +214,7 @@ function Egg3DPreview() {
       >
         <div className="relative w-full h-full" style={{ animation: "ttTileBob 2600ms ease-in-out infinite", willChange: "transform" }}>
           <Image
-            src="/images/Wallys/Egg.png"
+            src="/images/Wallys/Egg%20t.png"
             alt="3D Egg"
             fill
             sizes="260px"

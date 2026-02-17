@@ -14,9 +14,10 @@ export default function DemoPage() {
   };
 
   return (
-    <main className="min-h-screen bg-black text-white flex flex-col items-center justify-start pt-32 px-6">
-      <h1 className="text-4xl font-bold mb-6 text-center">Create Your Token Demo</h1>
-      <form onSubmit={handleSubmit} className="space-y-6 w-full max-w-md">
+    <main className="min-h-screen bg-black text-white px-4 sm:px-6 py-8 sm:py-12">
+      <div className="mx-auto w-full max-w-md sm:max-w-lg flex flex-col items-center gap-6 sm:gap-8">
+      <h1 className="text-3xl sm:text-4xl font-bold text-center leading-tight">Create Your Token Demo</h1>
+      <form onSubmit={handleSubmit} className="space-y-5 sm:space-y-6 w-full">
         <div>
           <label className="block text-sm mb-1">Token Name</label>
           <input
@@ -54,20 +55,21 @@ export default function DemoPage() {
           Create Your Real Token
         </button>
         </form>
-        <br />
+        <div className="w-full flex flex-col items-center gap-3 sm:gap-4">
         <button
         onClick={() => router.push('/pricing')}
-        className="border-2 border-white text-white px-6 py-3 rounded-full text-lg font-semibold hover:ring-1 hover:ring-white hover:ring-offset-2 hover:ring-offset-black cursor-pointer"
+        className="w-full sm:w-auto border-2 border-white text-white px-6 py-3 rounded-full text-lg font-semibold hover:ring-1 hover:ring-white hover:ring-offset-2 hover:ring-offset-black cursor-pointer"
         >
         Pricing
       </button>
-      <br />
         <button
         onClick={() => router.push('/get-started')}
-        className="border-2 border-white text-white px-6 py-3 rounded-full text-lg font-semibold hover:ring-1 hover:ring-white hover:ring-offset-2 hover:ring-offset-black cursor-pointer"
+        className="w-full sm:w-auto border-2 border-white text-white px-6 py-3 rounded-full text-lg font-semibold hover:ring-1 hover:ring-white hover:ring-offset-2 hover:ring-offset-black cursor-pointer"
         >
         Back
       </button>
+      </div>
+      </div>
     </main>
   );
 }
