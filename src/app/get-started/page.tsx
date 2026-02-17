@@ -81,7 +81,7 @@ function WallyV0({ variant }: { variant: "white" | "dark" }) {
 
   const bodyBg = isDark
     ? "radial-gradient(120px 120px at 30% 25%, rgba(255,255,255,0.10), rgba(255,255,255,0.02) 60%, rgba(0,0,0,0.35))"
-    : "radial-gradient(120px 120px at 30% 25%, rgba(0,0,0,0.03), rgba(0,0,0,0.00) 60%, rgba(0,0,0,0.05))";
+    : "radial-gradient(130px 130px at 30% 25%, rgba(255,255,255,0.99), rgba(245,245,245,0.96) 62%, rgba(228,228,228,0.94))";
 
   const bodyBorder = isDark ? "rgba(255,255,255,0.10)" : "rgba(0,0,0,0.10)";
 
