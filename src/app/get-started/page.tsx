@@ -162,13 +162,7 @@ function WallyV0({ variant }: { variant: "white" | "dark" }) {
 function WhiteWallyPreview() {
   return (
     <div className="mx-auto w-full max-w-[260px] pointer-events-none">
-      <div
-        className="aspect-square rounded-3xl flex items-center justify-center"
-        style={{
-          background: "rgba(255,255,255,0.95)",
-          boxShadow: "0 0 0 1px rgba(0,0,0,0.10), 0 18px 60px rgba(0,0,0,0.25)",
-        }}
-      >
+      <div className="aspect-square flex items-center justify-center">
         <div style={{ animation: "ttTileBob 2600ms ease-in-out infinite", willChange: "transform" }}>
           <div style={{ transform: "scale(0.95)" }}>
             <WallyV0 variant="white" />
@@ -182,13 +176,7 @@ function WhiteWallyPreview() {
 function DarkWallyPreview() {
   return (
     <div className="mx-auto w-full max-w-[260px] pointer-events-none">
-      <div
-        className="aspect-square rounded-3xl flex items-center justify-center"
-        style={{
-          background: "rgba(255,255,255,0.06)",
-          boxShadow: "0 0 0 1px rgba(255,255,255,0.10), 0 18px 60px rgba(0,0,0,0.55)",
-        }}
-      >
+      <div className="aspect-square flex items-center justify-center">
         <div style={{ animation: "ttTileBob 2600ms ease-in-out infinite", willChange: "transform" }}>
           <div style={{ transform: "scale(0.95)" }}>
             <WallyV0 variant="dark" />
