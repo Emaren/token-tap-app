@@ -3,7 +3,9 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
-  --tt-theme-filter: none;
+  --tt-app-bg: #000000;
+  --tt-page-dark-bg: #000000;
+  --tt-shell-max: 920px;
 }
 
 @theme inline {
@@ -21,29 +23,33 @@
 }
 
 body {
-  background: var(--background);
+  background: var(--tt-app-bg);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+  transition: background-color 180ms ease;
 }
 
 html[data-tt-theme="grey"] {
-  --tt-theme-filter: grayscale(0.92) brightness(0.94) contrast(0.92);
+  --tt-app-bg: #1d2127;
+  --tt-page-dark-bg: #12161c;
 }
 
 html[data-tt-theme="black"] {
-  --tt-theme-filter: none;
+  --tt-app-bg: #000000;
+  --tt-page-dark-bg: #000000;
 }
 
 html[data-tt-theme="white"] {
-  --tt-theme-filter: grayscale(0.12) brightness(1.14) contrast(0.94);
+  --tt-app-bg: #eef2f6;
+  --tt-page-dark-bg: #161a1f;
 }
 
 html[data-tt-theme="sepia"] {
-  --tt-theme-filter: sepia(0.78) saturate(0.78) brightness(0.94);
+  --tt-app-bg: #2b241d;
+  --tt-page-dark-bg: #1d1711;
 }
 
 .tt-theme-content {
   min-height: 100dvh;
-  filter: var(--tt-theme-filter);
-  transition: filter 220ms ease;
+  transition: background-color 180ms ease;
 }

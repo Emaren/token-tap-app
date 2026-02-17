@@ -12,9 +12,7 @@ export default function SelectedWalletTileArt({ tile }: Props) {
   if (tile.kind === "creature" && tile.creature) {
     return (
       <div className="w-full h-full flex items-center justify-center">
-        <div className="scale-[1.15] sm:scale-[1.22] origin-center">
-          <CreatureSprite c={tile.creature} />
-        </div>
+        <CreatureSprite c={tile.creature} scale={1.2} />
       </div>
     );
   }

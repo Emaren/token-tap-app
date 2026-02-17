@@ -388,7 +388,7 @@ export default function GetStartedPage() {
   ];
 
   return (
-    <main className="min-h-screen relative bg-black text-white px-4 pt-10 pb-10 max-w-md mx-auto">
+    <main className="min-h-[100dvh] text-white px-0 sm:px-4 py-0 sm:py-4 [--tt-shell-max:920px]">
       <style jsx global>{`
         @keyframes ttTileBob {
           0%,
@@ -400,90 +400,92 @@ export default function GetStartedPage() {
           }
         }
       `}</style>
-      <Link href="/" className="absolute top-4 left-4 z-10">
-        <Image
-          src="/images/ttt-logo.png"
-          alt="TokenTap Logo"
-          width={40}
-          height={40}
-          className="w-10 h-10 object-contain"
-          priority
-        />
-      </Link>
-
-      <section className="text-center mb-10">
-        <h1 className="text-2xl font-bold mb-6">Featured Customers</h1>
-
-        <div className="space-y-6">
-          <CustomerCard {...customers[0]} priority />
-
-          {showAll && customers.slice(1).map((c, i) => <CustomerCard key={i + 1} {...c} />)}
-
-          {customers?.length > 1 && (
-            <button onClick={() => setShowAll(!showAll)} className="mt-2 text-sm text-white hover:text-white/70">
-              {showAll ? "Hide More Customers ⬆" : "More Customers ⬇"}
-            </button>
-          )}
-        </div>
-      </section>
-
-      <section className="mt-2">
-        <h2 className="text-xl font-semibold text-center">Loyalty Tokens</h2>
-
-        <div className="mt-6 grid grid-cols-1 gap-6">
-          {tiers.map((tier) => (
-            <Link key={tier.link} href={tier.link} className="block">
-              <div className="cursor-pointer border-2 border-white rounded-3xl p-8 text-center transition duration-200 hover:ring-1 hover:ring-white hover:ring-offset-2 hover:ring-offset-black">
-                <h3 className="text-lg font-bold mb-1">{tier.name}</h3>
-                <p className="text-white/70 text-sm mb-2">{tier.sub}</p>
-                <p className="text-lg font-semibold mb-4">{tier.price}</p>
-
-                {tier.preview && (
-                  <div className="mb-5 flex justify-center">
-                    {tier.preview === "selected-creature" && tier.selectedTile ? (
-                      <SelectedCreaturePreview tile={tier.selectedTile} />
-                    ) : tier.preview === "white-wally" ? (
-                      <WhiteWallyPreview />
-                    ) : tier.preview === "dark-wally" ? (
-                      <DarkWallyPreview />
-                    ) : tier.preview === "egg-3d" ? (
-                      <Egg3DPreview />
-                    ) : tier.preview === "egg-wally" ? (
-                      <EggWallyPreview />
-                    ) : null}
-                  </div>
-                )}
-
-                <ul className="text-sm text-white/70 space-y-1">
-                  {tier.features.map((f) => (
-                    <li key={f}>{f}</li>
-                  ))}
-                </ul>
-              </div>
-            </Link>
-          ))}
-        </div>
-      </section>
-
-      <section className="mt-10 text-center space-y-2 text-sm">
-        <Link href="/get-started/pricing" className="text-white underline hover:text-white/70 block cursor-pointer">
-          More Pricing
+      <div className="relative mx-auto w-full max-w-[var(--tt-shell-max)] min-h-[100dvh] sm:min-h-0 bg-[var(--tt-page-dark-bg)] px-4 sm:px-6 pt-10 pb-10 sm:rounded-[28px] sm:shadow-[0_22px_70px_rgba(0,0,0,0.45)]">
+        <Link href="/" className="absolute top-4 left-4 z-10">
+          <Image
+            src="/images/ttt-logo.png"
+            alt="TokenTap Logo"
+            width={40}
+            height={40}
+            className="w-10 h-10 object-contain"
+            priority
+          />
         </Link>
 
-        <a
-          href="https://discord.gg/RYNBKz7n9y"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 text-white underline hover:text-white/70 cursor-pointer"
-        >
-          <Image src="/images/discord.svg" alt="Discord" width={20} height={20} className="w-5 h-5" />
-          Join the TokenTap Discord
-        </a>
+        <section className="text-center mb-10">
+          <h1 className="text-2xl font-bold mb-6">Featured Customers</h1>
 
-        <a href="mailto:contact@tokentap.ca" className="text-white underline hover:text-white/70 block cursor-pointer">
-          Contact TokenTap
-        </a>
-      </section>
+          <div className="space-y-6">
+            <CustomerCard {...customers[0]} priority />
+
+            {showAll && customers.slice(1).map((c, i) => <CustomerCard key={i + 1} {...c} />)}
+
+            {customers?.length > 1 && (
+              <button onClick={() => setShowAll(!showAll)} className="mt-2 text-sm text-white hover:text-white/70">
+                {showAll ? "Hide More Customers ⬆" : "More Customers ⬇"}
+              </button>
+            )}
+          </div>
+        </section>
+
+        <section className="mt-2">
+          <h2 className="text-xl font-semibold text-center">Loyalty Tokens</h2>
+
+          <div className="mt-6 grid grid-cols-1 gap-6">
+            {tiers.map((tier) => (
+              <Link key={tier.link} href={tier.link} className="block">
+                <div className="cursor-pointer border-2 border-white rounded-3xl p-8 text-center transition duration-200 hover:ring-1 hover:ring-white hover:ring-offset-2 hover:ring-offset-black">
+                  <h3 className="text-lg font-bold mb-1">{tier.name}</h3>
+                  <p className="text-white/70 text-sm mb-2">{tier.sub}</p>
+                  <p className="text-lg font-semibold mb-4">{tier.price}</p>
+
+                  {tier.preview && (
+                    <div className="mb-5 flex justify-center">
+                      {tier.preview === "selected-creature" && tier.selectedTile ? (
+                        <SelectedCreaturePreview tile={tier.selectedTile} />
+                      ) : tier.preview === "white-wally" ? (
+                        <WhiteWallyPreview />
+                      ) : tier.preview === "dark-wally" ? (
+                        <DarkWallyPreview />
+                      ) : tier.preview === "egg-3d" ? (
+                        <Egg3DPreview />
+                      ) : tier.preview === "egg-wally" ? (
+                        <EggWallyPreview />
+                      ) : null}
+                    </div>
+                  )}
+
+                  <ul className="text-sm text-white/70 space-y-1">
+                    {tier.features.map((f) => (
+                      <li key={f}>{f}</li>
+                    ))}
+                  </ul>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </section>
+
+        <section className="mt-10 text-center space-y-2 text-sm">
+          <Link href="/get-started/pricing" className="text-white underline hover:text-white/70 block cursor-pointer">
+            More Pricing
+          </Link>
+
+          <a
+            href="https://discord.gg/RYNBKz7n9y"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 text-white underline hover:text-white/70 cursor-pointer"
+          >
+            <Image src="/images/discord.svg" alt="Discord" width={20} height={20} className="w-5 h-5" />
+            Join the TokenTap Discord
+          </a>
+
+          <a href="mailto:contact@tokentap.ca" className="text-white underline hover:text-white/70 block cursor-pointer">
+            Contact TokenTap
+          </a>
+        </section>
+      </div>
     </main>
   );
 }

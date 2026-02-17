@@ -71,62 +71,66 @@ export default function MorePricingPage() {
   const router = useRouter();
 
   return (
-    <main className="min-h-screen bg-black text-white px-4 pt-10 pb-10 max-w-md mx-auto flex flex-col">
-      <h1 className="text-2xl font-bold text-center mb-6">
-        Subscription Options
-      </h1>
+    <main className="min-h-[100dvh] text-white px-0 sm:px-4 py-0 sm:py-4 [--tt-shell-max:920px]">
+      <div className="mx-auto w-full max-w-[var(--tt-shell-max)] min-h-[100dvh] sm:min-h-0 bg-[var(--tt-page-dark-bg)] px-4 sm:px-6 pt-10 pb-10 sm:rounded-[28px] sm:shadow-[0_22px_70px_rgba(0,0,0,0.45)]">
+        <div className="mx-auto w-full max-w-xl flex flex-col">
+          <h1 className="text-2xl font-bold text-center mb-6">
+            Subscription Options
+          </h1>
 
-      <div className="space-y-6 flex-grow">
-        {tiers.map((tier, index) => (
-          <div
-            key={index}
-            className="border-2 border-white rounded-2xl p-6 text-center transition hover:ring-1 hover:ring-white hover:ring-offset-2 hover:ring-offset-black cursor-pointer"
-            onClick={() => handleCheckout(tier.priceId!, userId)}
-          >
-            <h3 className="text-lg font-bold mb-1">{tier.name}</h3>
-            <p className="text-white/70 text-sm mb-2">{tier.sub}</p>
-            <p className="text-lg font-semibold mb-3">{tier.price}</p>
-            <ul className="text-sm text-white/70 space-y-1">
-              {tier.features.map((f, i) => (
-                <li key={i}>{f}</li>
-              ))}
-            </ul>
+          <div className="space-y-6 flex-grow">
+            {tiers.map((tier, index) => (
+              <div
+                key={index}
+                className="border-2 border-white rounded-2xl p-6 text-center transition hover:ring-1 hover:ring-white hover:ring-offset-2 hover:ring-offset-black cursor-pointer"
+                onClick={() => handleCheckout(tier.priceId!, userId)}
+              >
+                <h3 className="text-lg font-bold mb-1">{tier.name}</h3>
+                <p className="text-white/70 text-sm mb-2">{tier.sub}</p>
+                <p className="text-lg font-semibold mb-3">{tier.price}</p>
+                <ul className="text-sm text-white/70 space-y-1">
+                  {tier.features.map((f, i) => (
+                    <li key={i}>{f}</li>
+                  ))}
+                </ul>
+              </div>
+            ))}
           </div>
-        ))}
+
+          <button
+            onClick={() => router.back()}
+            className="mt-10 text-sm text-white underline hover:text-white/70 cursor-pointer"
+          >
+            ← Back
+          </button>
+
+          {/* Bottom Links */}
+          <section className="mt-10 text-center space-y-2 text-sm">
+            <a
+              href="https://discord.gg/RYNBKz7n9y"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 text-white underline hover:text-white/70 cursor-pointer"
+            >
+              <Image
+                src="/images/discord.svg"
+                alt="Discord"
+                width={20}
+                height={20}
+                className="w-5 h-5"
+              />
+              Join the TokenTap Discord
+            </a>
+            <a
+              href="mailto:contact@tokentap.ca"
+              className="text-white underline hover:text-white/70 cursor-pointer block"
+            >
+              Contact TokenTap
+            </a>
+          </section>
+          {/* Bottom Links */}
+        </div>
       </div>
-
-      <button
-        onClick={() => router.back()}
-        className="mt-10 text-sm text-white underline hover:text-white/70 cursor-pointer"
-      >
-        ← Back
-      </button>
-
-      {/* Bottom Links */}
-      <section className="mt-10 text-center space-y-2 text-sm">
-        <a
-          href="https://discord.gg/RYNBKz7n9y"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 text-white underline hover:text-white/70 cursor-pointer"
-        >
-          <Image
-            src="/images/discord.svg"
-            alt="Discord"
-            width={20}
-            height={20}
-            className="w-5 h-5"
-          />
-          Join the TokenTap Discord
-        </a>
-        <a
-          href="mailto:contact@tokentap.ca"
-          className="text-white underline hover:text-white/70 cursor-pointer block"
-        >
-          Contact TokenTap
-        </a>
-      </section>
-      {/* Bottom Links */}
     </main>
   );
 }

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 
 type ThemeId = "grey" | "black" | "white" | "sepia";
 
@@ -24,6 +25,8 @@ function normalizeTheme(v: string | null): ThemeId {
 
 export default function ThemeSwitcher() {
   const [theme, setTheme] = useState<ThemeId>("black");
+  const pathname = usePathname();
+  const dockRight = "max(0.75rem, calc((100vw - var(--tt-shell-max, 100vw)) / 2 + 0.75rem))";
 
   useEffect(() => {
     const stored = normalizeTheme(
@@ -43,8 +46,13 @@ export default function ThemeSwitcher() {
     }
   };
 
+  if (pathname === "/") return null;
+
   return (
-    <div className="fixed top-3 right-3 z-[1200]">
+    <div
+      className="fixed top-[calc(env(safe-area-inset-top)+0.5rem)] z-[1200]"
+      style={{ right: dockRight }}
+    >
       <div className="rounded-full border border-white/25 bg-black/50 backdrop-blur px-2 py-1.5 shadow-[0_8px_30px_rgba(0,0,0,0.35)]">
         <div className="flex items-center gap-1.5">
           {THEMES.map((t) => {

@@ -117,7 +117,7 @@ function WallyWalletLabPageContent() {
             {selectedMode ? (
               selectedTile ? (
                 <div
-                  className="relative w-[280px] h-[280px] sm:w-[340px] sm:h-[340px] rounded-3xl border border-black/10 bg-black/5 overflow-hidden flex items-center justify-center"
+                  className="relative w-[280px] h-[280px] sm:w-[340px] sm:h-[340px] rounded-3xl border border-black/20 bg-black/35 overflow-hidden flex items-center justify-center"
                   style={{ animation: "ttWalletBob 2600ms ease-in-out infinite", willChange: "transform" }}
                 >
                   <SelectedWalletTileArt tile={selectedTile} />

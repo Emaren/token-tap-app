@@ -20,8 +20,9 @@ export default function BaseWallet({
   const walletAddress = `${token}`
 
   return (
-    <main className="min-h-screen bg-black text-white px-4 sm:px-6 py-6 sm:py-10">
-      <div className="mx-auto w-full max-w-md sm:max-w-lg flex min-h-[calc(100dvh-3rem)] sm:min-h-[calc(100dvh-5rem)] flex-col">
+    <main className="min-h-[100dvh] text-white px-0 sm:px-4 py-0 sm:py-4 [--tt-shell-max:920px]">
+      <div className="mx-auto w-full max-w-[var(--tt-shell-max)] min-h-[100dvh] sm:min-h-0 bg-[var(--tt-page-dark-bg)] px-4 sm:px-8 py-8 sm:py-10 sm:rounded-[28px] sm:shadow-[0_22px_70px_rgba(0,0,0,0.45)]">
+      <div className="mx-auto w-full max-w-xl flex min-h-[calc(100dvh-4rem)] sm:min-h-[calc(100dvh-8rem)] flex-col">
         {/* Header */}
         <div className="text-center flex flex-col items-center gap-3 sm:gap-4">
           <h1 className="text-3xl sm:text-4xl font-bold leading-tight">
@@ -99,6 +100,7 @@ export default function BaseWallet({
             </a>
           </section>
         </div>
+      </div>
       </div>
     </main>
   )
