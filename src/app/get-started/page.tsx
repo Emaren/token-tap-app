@@ -243,8 +243,7 @@ export default function GetStartedPage() {
   useEffect(() => {
     const update = () => {
       const res = loadBestEffortSelectedCreatureTiles();
-      const ordered = [...res.tiles].reverse();
-      const creatureOnly = ordered.filter(
+      const creatureOnly = res.tiles.filter(
         (tile): tile is PreviewTile & { kind: "creature"; creature: StoredCreatureV1 } =>
           tile.kind === "creature" && !!tile.creature
       );
