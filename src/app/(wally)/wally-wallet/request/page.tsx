@@ -1,12 +1,13 @@
 import Link from "next/link";
-import { toQueryString, type AppSearchParams } from "@/lib/search-params";
+import { toQueryString, type AppSearchParamsPromise } from "@/lib/search-params";
 
-export default function WallyRequestPage({
+export default async function WallyRequestPage({
   searchParams,
 }: {
-  searchParams?: AppSearchParams;
+  searchParams?: AppSearchParamsPromise;
 }) {
-  const backHref = `/wally-wallet${toQueryString(searchParams)}`;
+  const sp = await searchParams;
+  const backHref = `/wally-wallet${toQueryString(sp)}`;
 
   return (
     <main className="space-y-4">

@@ -1,5 +1,6 @@
 // src/lib/search-params.ts
 export type AppSearchParams = Record<string, string | string[] | undefined>;
+export type AppSearchParamsPromise = Promise<AppSearchParams>;
 
 export function toQueryString(searchParams?: AppSearchParams): string {
   if (!searchParams) return "";
