@@ -49,8 +49,8 @@ export default function WallyWalletLayout({
                 items={[
                   { href: "/wally-wallet-dark", label: "Dark Lab" },
                   { href: "/wally-wallet-egg", label: "Egg/Furry Lab" },
-                  { href: "/demo-wallet", label: "Demo Wallet" },
-                  { href: "/get-started", label: "Get Started" },
+                  { href: "/demo-wallet", label: "Demo Wallet", preserveQuery: false },
+                  { href: "/get-started", label: "Get Started", preserveQuery: false },
                 ]}
               />
             </Suspense>

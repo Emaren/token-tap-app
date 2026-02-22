@@ -12,9 +12,11 @@ function WallyV0White() {
       <div
         className="absolute inset-0 rounded-[54px]"
         style={{
-          background: "radial-gradient(130px 130px at 30% 25%, rgba(255,255,255,0.99), rgba(245,245,245,0.96) 62%, rgba(228,228,228,0.94))",
+          background:
+            "radial-gradient(130px 130px at 30% 25%, rgba(255,255,255,0.99), rgba(245,245,245,0.96) 62%, rgba(228,228,228,0.94))",
           border: "1px solid rgba(0,0,0,0.10)",
-          boxShadow: "0 14px 40px rgba(0,0,0,0.10), inset 0 0 0 1px rgba(255,255,255,0.60)",
+          boxShadow:
+            "0 14px 40px rgba(0,0,0,0.10), inset 0 0 0 1px rgba(255,255,255,0.60)",
         }}
       />
 
@@ -54,7 +56,11 @@ function WallyV0White() {
           <div className="absolute right-[36px] top-[42px] w-[16px] h-[16px] rounded-full bg-black/85" />
           <div
             className="absolute left-1/2 top-[64px] w-[46px] h-[26px]"
-            style={{ transform: "translateX(-50%)", borderBottom: "3px solid rgba(0,0,0,0.45)", borderRadius: "0 0 999px 999px" }}
+            style={{
+              transform: "translateX(-50%)",
+              borderBottom: "3px solid rgba(0,0,0,0.45)",
+              borderRadius: "0 0 999px 999px",
+            }}
           />
         </div>
       </div>
@@ -99,13 +105,22 @@ function WallyWalletLabPageContent() {
         </div>
 
         <div className="flex flex-wrap gap-2">
-          <Link href={`/wally-wallet/send${querySuffix}`} className="px-4 py-2 rounded-xl border border-black/15 hover:bg-black/5">
+          <Link
+            href={`/wally-wallet/send${querySuffix}`}
+            className="px-4 py-2 rounded-xl border border-black/15 hover:bg-black/5"
+          >
             Send
           </Link>
-          <Link href={`/wally-wallet/receive${querySuffix}`} className="px-4 py-2 rounded-xl border border-black/15 hover:bg-black/5">
+          <Link
+            href={`/wally-wallet/receive${querySuffix}`}
+            className="px-4 py-2 rounded-xl border border-black/15 hover:bg-black/5"
+          >
             Receive
           </Link>
-          <Link href={`/wally-wallet/request${querySuffix}`} className="px-4 py-2 rounded-xl border border-black/15 hover:bg-black/5">
+          <Link
+            href={`/wally-wallet/request${querySuffix}`}
+            className="px-4 py-2 rounded-xl border border-black/15 hover:bg-black/5"
+          >
             Request
           </Link>
         </div>
@@ -117,24 +132,41 @@ function WallyWalletLabPageContent() {
             {selectedMode ? (
               selectedTile ? (
                 <div
-                  className="relative w-[280px] h-[280px] sm:w-[340px] sm:h-[340px] rounded-3xl border border-black/20 bg-black/35 overflow-hidden flex items-center justify-center"
-                  style={{ animation: "ttWalletBob 2600ms ease-in-out infinite", willChange: "transform" }}
+                  className="relative w-[280px] h-[280px] sm:w-[340px] sm:h-[340px] rounded-3xl border border-black/12 bg-gradient-to-b from-white to-black/10 overflow-hidden flex items-center justify-center"
+                  style={{
+                    animation: "ttWalletBob 2600ms ease-in-out infinite",
+                    willChange: "transform",
+                  }}
                 >
                   <SelectedWalletTileArt tile={selectedTile} />
                 </div>
               ) : (
                 <div className="text-center">
-                  <div className="text-sm text-black/70">No selected creature tile found.</div>
-                  <Link href="/creatures" className="mt-3 inline-flex px-4 py-2 rounded-full border border-black/15 hover:bg-black/5 text-sm">
+                  <div className="text-sm text-black/70">
+                    No selected creature tile found.
+                  </div>
+                  <Link
+                    href="/creatures"
+                    className="mt-3 inline-flex px-4 py-2 rounded-full border border-black/15 hover:bg-black/5 text-sm"
+                  >
                     Pick in Creatures
                   </Link>
                 </div>
               )
             ) : (
-              <div style={{ animation: "ttWalletBob 2600ms ease-in-out infinite", willChange: "transform" }}>
+              <div
+                style={{
+                  animation: "ttWalletBob 2600ms ease-in-out infinite",
+                  willChange: "transform",
+                }}
+              >
                 <div
                   className="w-[244px] h-[244px] rounded-3xl flex items-center justify-center"
-                  style={{ background: "rgba(255,255,255,0.95)", boxShadow: "0 0 0 1px rgba(0,0,0,0.10), 0 18px 60px rgba(0,0,0,0.25)" }}
+                  style={{
+                    background: "rgba(255,255,255,0.95)",
+                    boxShadow:
+                      "0 0 0 1px rgba(0,0,0,0.10), 0 18px 60px rgba(0,0,0,0.25)",
+                  }}
                 >
                   <div style={{ transform: "scale(0.95)" }}>
                     <WallyV0White />
@@ -166,7 +198,11 @@ function WallyWalletLabPageContent() {
 
 export default function WallyWalletLabPage() {
   return (
-    <Suspense fallback={<div className="h-[320px] rounded-2xl border border-black/10 bg-white animate-pulse" />}>
+    <Suspense
+      fallback={
+        <div className="h-[320px] rounded-2xl border border-black/10 bg-white animate-pulse" />
+      }
+    >
       <WallyWalletLabPageContent />
     </Suspense>
   );
