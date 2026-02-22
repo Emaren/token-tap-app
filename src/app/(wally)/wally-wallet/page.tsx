@@ -132,14 +132,27 @@ function WallyWalletLabPageContent() {
             {selectedMode ? (
               selectedTile ? (
                 <div
-                  className="relative w-[280px] h-[280px] sm:w-[340px] sm:h-[340px] rounded-3xl border border-black/12 bg-gradient-to-b from-white to-black/10 overflow-hidden flex items-center justify-center"
+                className="relative w-[280px] h-[280px] sm:w-[340px] sm:h-[340px] rounded-3xl overflow-hidden flex items-center justify-center"
+                style={{
+                  animation: "ttWalletBob 2600ms ease-in-out infinite",
+                  willChange: "transform",
+                  boxShadow: "0 18px 60px rgba(0,0,0,0.22)",
+                }}
+              >
+                {/* Dark stage so the tile keeps its intended look (matches Get Started cards) */}
+                <div
+                  className="absolute inset-0"
                   style={{
-                    animation: "ttWalletBob 2600ms ease-in-out infinite",
-                    willChange: "transform",
+                    background:
+                      "radial-gradient(60% 55% at 50% 25%, rgba(255,255,255,0.12), rgba(0,0,0,0.92) 55%, rgba(0,0,0,0.98) 100%)",
                   }}
-                >
+                />
+                <div className="absolute inset-0 rounded-3xl ring-1 ring-white/10" />
+
+                <div className="relative">
                   <SelectedWalletTileArt tile={selectedTile} />
                 </div>
+              </div>
               ) : (
                 <div className="text-center">
                   <div className="text-sm text-black/70">
