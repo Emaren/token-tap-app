@@ -5,6 +5,7 @@ import { useSearchParams } from "next/navigation";
 import { Suspense } from "react";
 import SelectedWalletTileArt from "@/components/SelectedWalletTileArt";
 import { useSelectedWalletTile } from "@/lib/use-selected-wallet-tile";
+import { isDarkTtTheme, useTtTheme } from "@/lib/use-tt-theme";
 
 function WallyV0White() {
   return (
@@ -73,14 +74,29 @@ function WallyV0White() {
 }
 
 function WallyWalletLabPageContent() {
+  const theme = useTtTheme();
+  const dark = isDarkTtTheme(theme);
+
   const searchParams = useSearchParams();
   const selectedMode = searchParams.get("selected") === "1";
   const requestedTileId = searchParams.get("tile");
   const selectedTile = useSelectedWalletTile(selectedMode, requestedTileId);
 
   const querySuffix = selectedMode
-    ? `?selected=1${requestedTileId ? `&tile=${encodeURIComponent(requestedTileId)}` : ""}`
+    ? `?selected=1${
+        requestedTileId ? `&tile=${encodeURIComponent(requestedTileId)}` : ""
+      }`
     : "";
+
+  const muted = dark ? "text-white/60" : "text-black/60";
+  const border = dark ? "border-white/10" : "border-black/10";
+  const cardBg = dark ? "bg-white/5" : "bg-white";
+  const cardShadow = dark
+    ? "shadow-[0_18px_60px_rgba(0,0,0,0.55)]"
+    : "shadow-[0_18px_60px_rgba(0,0,0,0.08)]";
+  const btn = dark
+    ? "border-white/15 hover:bg-white/10"
+    : "border-black/15 hover:bg-black/5";
 
   return (
     <div className="space-y-5 sm:space-y-6">
@@ -99,7 +115,7 @@ function WallyWalletLabPageContent() {
       <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <h1 className="text-2xl font-bold">Wally Wallet</h1>
-          <p className="text-black/60">
+          <p className={muted}>
             White canvas. Mobile-first wallet lab with selected creature support.
           </p>
         </div>
@@ -107,60 +123,75 @@ function WallyWalletLabPageContent() {
         <div className="flex flex-wrap gap-2">
           <Link
             href={`/wally-wallet/send${querySuffix}`}
-            className="px-4 py-2 rounded-xl border border-black/15 hover:bg-black/5"
+            className={`px-4 py-2 rounded-xl border ${btn}`}
           >
             Send
           </Link>
           <Link
             href={`/wally-wallet/receive${querySuffix}`}
-            className="px-4 py-2 rounded-xl border border-black/15 hover:bg-black/5"
+            className={`px-4 py-2 rounded-xl border ${btn}`}
           >
             Receive
           </Link>
           <Link
             href={`/wally-wallet/request${querySuffix}`}
-            className="px-4 py-2 rounded-xl border border-black/15 hover:bg-black/5"
+            className={`px-4 py-2 rounded-xl border ${btn}`}
           >
             Request
           </Link>
         </div>
       </div>
 
-      <section className="relative overflow-hidden rounded-2xl sm:rounded-3xl border border-black/10 bg-white shadow-[0_18px_60px_rgba(0,0,0,0.08)]">
+      <section
+        className={`relative overflow-hidden rounded-2xl sm:rounded-3xl border ${border} ${cardBg} ${cardShadow}`}
+      >
         <div className="p-4 sm:p-8 md:p-12">
           <div className="flex flex-col items-center justify-center py-4 sm:py-8">
             {selectedMode ? (
               selectedTile ? (
                 <div
-                className="relative w-[280px] h-[280px] sm:w-[340px] sm:h-[340px] rounded-3xl overflow-hidden flex items-center justify-center"
-                style={{
-                  animation: "ttWalletBob 2600ms ease-in-out infinite",
-                  willChange: "transform",
-                  boxShadow: "0 18px 60px rgba(0,0,0,0.22)",
-                }}
-              >
-                {/* Dark stage so the tile keeps its intended look (matches Get Started cards) */}
-                <div
-                  className="absolute inset-0"
+                  className="relative w-[280px] h-[280px] sm:w-[340px] sm:h-[340px] rounded-3xl overflow-hidden flex items-center justify-center"
                   style={{
-                    background:
-                      "radial-gradient(60% 55% at 50% 25%, rgba(255,255,255,0.12), rgba(0,0,0,0.92) 55%, rgba(0,0,0,0.98) 100%)",
+                    animation: "ttWalletBob 2600ms ease-in-out infinite",
+                    willChange: "transform",
+                    boxShadow: dark
+                      ? "0 18px 60px rgba(0,0,0,0.35)"
+                      : "0 18px 60px rgba(0,0,0,0.18)",
                   }}
-                />
-                <div className="absolute inset-0 rounded-3xl ring-1 ring-white/10" />
+                >
+                  <div
+                    className="absolute inset-0"
+                    style={{
+                      background: dark
+                        ? "radial-gradient(60% 55% at 50% 25%, rgba(255,255,255,0.12), rgba(0,0,0,0.92) 55%, rgba(0,0,0,0.98) 100%)"
+                        : "radial-gradient(60% 55% at 50% 25%, rgba(0,0,0,0.04), rgba(0,0,0,0.12) 60%, rgba(0,0,0,0.18) 100%)",
+                    }}
+                  />
+                  <div
+                    className="absolute inset-0 rounded-3xl"
+                    style={{
+                      boxShadow: dark
+                        ? "inset 0 0 0 1px rgba(255,255,255,0.10)"
+                        : "inset 0 0 0 1px rgba(0,0,0,0.10)",
+                    }}
+                  />
 
-                <div className="relative">
-                  <SelectedWalletTileArt tile={selectedTile} />
+                  <div className="relative">
+                    <SelectedWalletTileArt tile={selectedTile} />
+                  </div>
                 </div>
-              </div>
               ) : (
                 <div className="text-center">
-                  <div className="text-sm text-black/70">
+                  <div
+                    className={`text-sm ${
+                      dark ? "text-white/70" : "text-black/70"
+                    }`}
+                  >
                     No selected creature tile found.
                   </div>
                   <Link
                     href="/creatures"
-                    className="mt-3 inline-flex px-4 py-2 rounded-full border border-black/15 hover:bg-black/5 text-sm"
+                    className={`mt-3 inline-flex px-4 py-2 rounded-full border text-sm ${btn}`}
                   >
                     Pick in Creatures
                   </Link>
@@ -176,9 +207,12 @@ function WallyWalletLabPageContent() {
                 <div
                   className="w-[244px] h-[244px] rounded-3xl flex items-center justify-center"
                   style={{
-                    background: "rgba(255,255,255,0.95)",
-                    boxShadow:
-                      "0 0 0 1px rgba(0,0,0,0.10), 0 18px 60px rgba(0,0,0,0.25)",
+                    background: dark
+                      ? "rgba(255,255,255,0.06)"
+                      : "rgba(255,255,255,0.95)",
+                    boxShadow: dark
+                      ? "0 0 0 1px rgba(255,255,255,0.10), 0 18px 60px rgba(0,0,0,0.40)"
+                      : "0 0 0 1px rgba(0,0,0,0.10), 0 18px 60px rgba(0,0,0,0.25)",
                   }}
                 >
                   <div style={{ transform: "scale(0.95)" }}>
@@ -188,7 +222,7 @@ function WallyWalletLabPageContent() {
               </div>
             )}
 
-            <div className="mt-5 text-sm text-black/60 text-center">
+            <div className={`mt-5 text-sm ${muted} text-center`}>
               {selectedMode && selectedTile
                 ? `Selected creature preview: ${selectedTile.name}`
                 : "White lab preview with bob animation."}
@@ -197,9 +231,13 @@ function WallyWalletLabPageContent() {
         </div>
       </section>
 
-      <section className="rounded-2xl border border-black/10 bg-white p-5">
+      <section className={`rounded-2xl border ${border} ${cardBg} p-5`}>
         <div className="text-sm font-semibold mb-2">Next steps (White Lab)</div>
-        <ul className="text-sm text-black/70 list-disc pl-5 space-y-1">
+        <ul
+          className={`text-sm ${
+            dark ? "text-white/70" : "text-black/70"
+          } list-disc pl-5 space-y-1`}
+        >
           <li>Keep mobile-first sizing and spacing as baseline.</li>
           <li>Add wallet chrome (balance, chips, recent activity).</li>
           <li>Use this same stage shell across all skins.</li>
@@ -213,7 +251,7 @@ export default function WallyWalletLabPage() {
   return (
     <Suspense
       fallback={
-        <div className="h-[320px] rounded-2xl border border-black/10 bg-white animate-pulse" />
+        <div className="h-[320px] rounded-2xl border border-white/10 bg-white/5 animate-pulse" />
       }
     >
       <WallyWalletLabPageContent />
